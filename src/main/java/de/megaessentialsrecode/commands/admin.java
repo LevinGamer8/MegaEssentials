@@ -20,12 +20,12 @@ public class admin implements CommandExecutor {
             return true;
         }
         if (p.hasPermission("megacraft.command.admin")) {
-            ItemStack glass_pane = new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE).setDisplayName("§b").build();
             Inventory inv = Bukkit.createInventory(null, 3 * 9, "§4ADMIN");
+            ItemStack glass_pane = new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE).setDisplayName("§b").build();
             for(int i = 0; i < 27; i++) {
                 inv.setItem(i, glass_pane);
             }
-            inv.setItem(7, new ItemBuilder(Material.SUNFLOWER).setDisplayName("§6Pay * 10.000").setLore("§6Sei ein §bEhren§e-§4Admin §6und paye jedem registriertem Spieler §a10.000 §b€").build());
+            inv.setItem(2, new ItemBuilder(Material.GOLD_INGOT).setDisplayName("§6GELD").setLore("§6Gebe den Spielern Geld!").build());
             p.openInventory(inv);
         } else {
             p.sendMessage(MegaEssentials.Prefix + MegaEssentials.noPerms);
