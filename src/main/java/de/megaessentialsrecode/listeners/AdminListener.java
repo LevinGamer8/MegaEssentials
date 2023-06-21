@@ -16,9 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class AdminListener implements Listener {
-
-    private EconomyProvider economyProvider = MegaEssentials.getEconomyProvider();
-
+    private final EconomyProvider economyProvider = MegaEssentials.getEconomyProvider();
     @EventHandler
     public void onInteract(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
@@ -37,10 +35,7 @@ public class AdminListener implements Listener {
                 }
             }
         }
-
-
         if (e.getView().getTitle().equals("§4ADMIN§7-§6GELD")) {
-
             if (e.getCurrentItem().getType() == Material.SUNFLOWER) {
                 if (e.getCurrentItem().getItemMeta().getDisplayName() == "§6Pay * 10.000")
                     p.getWorld().playEffect(p.getLocation().add(0.0D, 0.0D, 0.0D), Effect.BLAZE_SHOOT, 1);
