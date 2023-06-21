@@ -22,6 +22,7 @@ public class AdminListener implements Listener {
         if (e.getView().getTitle().equals("§4ADMIN")) {
             e.setCancelled(true);
             if (e.getCurrentItem().getType() == Material.SUNFLOWER) {
+                if (e.getCurrentItem().getItemMeta().getDisplayName() == "§6Pay * 10.000")
                 p.getWorld().playEffect(p.getLocation().add(0.0D, 0.0D, 0.0D), Effect.BLAZE_SHOOT, 1);
                 p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
                 Double amount = Double.parseDouble("10000");
