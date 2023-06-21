@@ -9,6 +9,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 public class admin implements CommandExecutor {
     @Override
@@ -19,7 +20,11 @@ public class admin implements CommandExecutor {
             return true;
         }
         if (p.hasPermission("megacraft.command.admin")) {
+            ItemStack glass_pane = new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE).setDisplayName("§b").build();
             Inventory inv = Bukkit.createInventory(null, 3 * 9, "§4ADMIN");
+            for(int i = 0; i < 27; i++) {
+                inv.setItem(i, glass_pane);
+            }
             inv.setItem(7, new ItemBuilder(Material.SUNFLOWER).setDisplayName("§6Pay * 10.000").setLore("§6Sei ein §bEhren§e-§4Admin §6und paye jedem registriertem Spieler §a10.000 §b€").build());
             p.openInventory(inv);
         } else {
