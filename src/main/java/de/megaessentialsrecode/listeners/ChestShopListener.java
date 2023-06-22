@@ -28,10 +28,9 @@ public class ChestShopListener implements Listener {
             int amount = Integer.parseInt(line2);
             boolean isBuying = line3.startsWith("K");
             double price = Double.parseDouble(line3.substring(1));
-            String item = line4;
 
             if (!(user == player)) {
-                
+
                 player.sendMessage("Menge: " + amount);
                 player.sendMessage(isBuying ? "Kaufen" : "Verkaufen");
                 player.sendMessage("Preis: " + price);
