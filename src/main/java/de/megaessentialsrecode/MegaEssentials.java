@@ -139,7 +139,7 @@ public final class MegaEssentials extends JavaPlugin{
         this.saveDefaultConfig();
 
         if (!this.getConfig().contains("mysql.host")) {
-            this.getConfig().set("mysql.host", "11.111.111.11");
+            this.getConfig().set("mysql.host", "localhost");
             this.getConfig().set("mysql.port", 3306);
             this.getConfig().set("mysql.database", "essentials");
             this.getConfig().set("mysql.username", "user");
