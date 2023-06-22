@@ -98,7 +98,7 @@ public final class MegaEssentials extends JavaPlugin{
     }
 
     public static void connect(Player p, String server) {
-        p.sendMessage("§6Du §8wirst mit §b" + server + " §averbunden§8...");
+        p.sendMessage("§6Du §7wirst mit §b" + server + " §averbunden§8...");
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeUTF("Connect");
         out.writeUTF(server);
