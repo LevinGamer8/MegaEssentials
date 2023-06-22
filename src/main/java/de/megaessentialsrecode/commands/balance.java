@@ -35,10 +35,12 @@ public class balance implements CommandExecutor {
         }
 
         if (args.length == 0) {
-            player.sendMessage(MegaEssentials.Prefix + "§bDein §6Kontostand§7:§a " + this.economyProvider.format(this.dataBase.getEconomy(player)) + " §b" + this.economyProvider.currencyNameSingular());
+            player.sendMessage(MegaEssentials.Prefix + "§bDein §6Bargeld§7:§a " + this.economyProvider.format(this.dataBase.getEconomy(player)) + " §b" + this.economyProvider.currencyNameSingular());
         } else if (args.length == 1 ) {
-            OfflinePlayer target =  Bukkit.getOfflinePlayer(args[0]);
-            player.sendMessage(MegaEssentials.Prefix + "§b" + target.getName() + "'s §6Kontostand§7:§a " + (this.economyProvider.format(this.dataBase.getEconomy(target)) + " §b" + this.economyProvider.currencyNameSingular()));
+            if (player.hasPermission("megacraft.command.balance")) {
+                OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
+                player.sendMessage(MegaEssentials.Prefix + "§b" + target.getName() + "'s §6Bargeld§7:§a " + (this.economyProvider.format(this.dataBase.getEconomy(target)) + " §b" + this.economyProvider.currencyNameSingular()));
+            }
         }
         return true;
     }

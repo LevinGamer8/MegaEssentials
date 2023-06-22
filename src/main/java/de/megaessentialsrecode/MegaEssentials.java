@@ -4,9 +4,8 @@ import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import de.megaessentialsrecode.commands.*;
-import de.megaessentialsrecode.listeners.AdminListener;
-import de.megaessentialsrecode.listeners.Listener;
-import de.megaessentialsrecode.listeners.navi;
+import de.megaessentialsrecode.listeners.*;
+import de.megaessentialsrecode.scoreboard.Teams;
 import de.megaessentialsrecode.utils.DataBase;
 import de.megaessentialsrecode.utils.EconomyProvider;
 import de.megaessentialsrecode.utils.MySQLConnection;
@@ -18,8 +17,9 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.*;
-import java.sql.*;
+import java.io.File;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -67,6 +67,7 @@ public final class MegaEssentials extends JavaPlugin{
             getCommand("navi").setExecutor(new navigator());
             getCommand("balance").setExecutor(new balance(dataBase));
             getCommand("money").setExecutor(new balance(dataBase));
+            getCommand("bank").setExecutor(new bank(dataBase));
             getCommand("pay").setExecutor(new pay());
             getCommand("eco").setExecutor(new eco());
             getCommand("invsee").setExecutor(new invsee());
@@ -91,6 +92,7 @@ public final class MegaEssentials extends JavaPlugin{
             Bukkit.getPluginManager().registerEvents(new navi(instance), this);
             Bukkit.getPluginManager().registerEvents(new Listener(), this);
             Bukkit.getPluginManager().registerEvents(new AdminListener(), this);
+            Bukkit.getPluginManager().registerEvents(new ChatListener(), this);
             Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
             Bukkit.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this::onPluginMessageReceived);
     }
@@ -115,7 +117,7 @@ public final class MegaEssentials extends JavaPlugin{
 
     private void createTables() {
         try (PreparedStatement statement = MySQLConnection.getConnection().prepareStatement(
-                "CREATE TABLE IF NOT EXISTS player_money (uuid VARCHAR(36) PRIMARY KEY, name VARCHAR(100), money DOUBLE)")) {
+                "CREATE TABLE IF NOT EXISTS player_money (uuid VARCHAR(36) PRIMARY KEY, name VARCHAR(100), money DOUBLE, bank DOUBLE)")) {
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
