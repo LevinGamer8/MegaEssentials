@@ -17,6 +17,7 @@ commands:
   navi:
   balance:
   money:
+  bank:
   pay:
   eco:
   invsee:

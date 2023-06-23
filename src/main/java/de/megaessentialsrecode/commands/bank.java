@@ -46,11 +46,11 @@ public class bank implements CommandExecutor, TabCompleter {
                 if (Objects.equals(args[0], "einzahlen")) {
                     DataBase.removeEconomy(player, amount);
                     DataBase.addEconomyBank(player, amount);
-                    player.sendMessage(MegaEssentials.Prefix + "§6Du hast §a" + this.economyProvider.format(amount) + "§beingezahlt");
+                    player.sendMessage(MegaEssentials.Prefix + "§6Du hast §a" + this.economyProvider.format(amount) + " §beingezahlt");
                 } else if (Objects.equals(args[0], "auszahlen")) {
                     DataBase.removeEconomyBank(player, amount);
                     DataBase.addEconomy(player, amount);
-                    player.sendMessage(MegaEssentials.Prefix + "§6Du hast §a" + this.economyProvider.format(amount) + "§bausgezahlt");
+                    player.sendMessage(MegaEssentials.Prefix + "§6Du hast §a" + this.economyProvider.format(amount) + " §bausgezahlt");
                 }
             } else {
                 sender.sendMessage(MegaEssentials.Prefix + "§4Nutze: /bank §b<einzahlen/auszahlen> §a<Betrag>");

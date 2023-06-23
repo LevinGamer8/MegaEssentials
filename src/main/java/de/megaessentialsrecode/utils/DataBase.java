@@ -49,7 +49,7 @@ public class DataBase {
                 statement.setString(1, offlinePlayer.getUniqueId().toString());
                 statement.setString(2, offlinePlayer.getName());
                 statement.setString(3, String.valueOf(Double.parseDouble("10000")));
-                statement.setString(3, String.valueOf(Double.parseDouble("0")));
+                statement.setString(4, String.valueOf(Double.parseDouble("0")));
                 statement.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
