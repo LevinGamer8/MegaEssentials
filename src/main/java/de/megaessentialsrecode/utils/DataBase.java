@@ -45,7 +45,7 @@ public class DataBase {
     public static void setup(OfflinePlayer offlinePlayer) {
         if (!exist(offlinePlayer)) {
             try (PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO player_money (uuid, name, money) VALUES (?, ?, ?)")) {
+                    "INSERT INTO player_money (uuid, name, money, bank) VALUES (?, ?, ?)")) {
                 statement.setString(1, offlinePlayer.getUniqueId().toString());
                 statement.setString(2, offlinePlayer.getName());
                 statement.setString(3, String.valueOf(Double.parseDouble("10000")));
