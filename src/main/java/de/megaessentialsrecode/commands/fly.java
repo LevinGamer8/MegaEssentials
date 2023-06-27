@@ -33,7 +33,7 @@ public class fly implements CommandExecutor {
                     toggleFlight(target);
                     p.sendMessage(MegaEssentials.Prefix + "Der Flugmodus von " + target.getName() + " wurde geändert.");
                 } else {
-                    p.sendMessage(MegaEssentials.Prefix + "Der Spieler ist nicht auf " + MegaEssentials.getServerName() + " online.");
+                    p.sendMessage(MegaEssentials.Prefix + "Der Spieler ist nicht auf " + MegaEssentials.getPluginName() + " online.");
                 }
             } else {
                 p.sendMessage(MegaEssentials.Prefix + "§4Nutzung§7: §b/fly §a<Spieler>");

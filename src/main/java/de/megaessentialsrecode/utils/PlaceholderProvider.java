@@ -10,7 +10,7 @@ public class PlaceholderProvider extends PlaceholderExpansion {
     private EconomyProvider economyProvider = MegaEssentials.getEconomyProvider();
     @Override
     public String getIdentifier() {
-        return "megaessentials";
+        return MegaEssentials.getPluginName();
     }
     @Override
     public String getAuthor() {

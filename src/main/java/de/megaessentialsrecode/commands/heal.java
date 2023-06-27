@@ -40,7 +40,7 @@ public class heal implements CommandExecutor {
             } else if (args.length == 1) {
                 Player target = Bukkit.getPlayer(args[0]);
                 if (target == null) {
-                    p.sendMessage(MegaEssentials.Prefix + "Der Spieler ist nicht auf " + MegaEssentials.getServerName() + " online.");
+                    p.sendMessage(MegaEssentials.Prefix + "Der Spieler ist nicht auf " + MegaEssentials.getPluginName() + " online.");
                 } else {
                     target.setHealth(20);
                     p.sendMessage(MegaEssentials.Prefix + "§b" + target.getName() + " §awurde geheilt.");

@@ -38,7 +38,7 @@ public class invsee implements CommandExecutor {
             }
 
             if (target == null) {
-                p.sendMessage(MegaEssentials.Prefix + "Der Spieler ist nicht auf " + MegaEssentials.getServerName() + " online.");
+                p.sendMessage(MegaEssentials.Prefix + "Der Spieler ist nicht auf " + MegaEssentials.getPluginName() + " online.");
             } else {
                 final Inventory inv = target.getInventory();
                 p.openInventory(inv);

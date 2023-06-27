@@ -18,7 +18,6 @@ public class enderchest implements CommandExecutor {
             return true;
         }
 
-
         Player p = (Player) sender;
 
         if (!(args.length == 0 || args.length == 1)) {

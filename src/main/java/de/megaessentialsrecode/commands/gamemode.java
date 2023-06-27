@@ -34,7 +34,7 @@ public class gamemode implements CommandExecutor, TabCompleter {
             Player target = Bukkit.getPlayer(args[1]);
 
             if ((target == null)) {
-                sender.sendMessage(MegaEssentials.Prefix + "Der Spieler ist nicht auf " + MegaEssentials.getServerName() + " online.");
+                sender.sendMessage(MegaEssentials.Prefix + "Der Spieler ist nicht auf " + MegaEssentials.getPluginName() + " online.");
                 return true;
             }
 

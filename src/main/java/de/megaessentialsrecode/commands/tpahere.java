@@ -5,11 +5,9 @@ import de.megaessentialsrecode.utils.TPAUtils;
 import de.megaessentialsrecode.MegaEssentials;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 public class tpahere implements CommandExecutor {
@@ -30,7 +28,7 @@ public class tpahere implements CommandExecutor {
 
         Player target = Bukkit.getPlayer(args[0]);
         if ((target == null)) {
-            p.sendMessage(MegaEssentials.Prefix + "§4Der Spieler ist nicht auf §3" + MegaEssentials.getServerName() + " §aonline.");
+            p.sendMessage(MegaEssentials.Prefix + "§4Der Spieler ist nicht auf §3" + MegaEssentials.getPluginName() + " §aonline.");
             return true;
         }
 
