@@ -78,7 +78,6 @@ public final class MegaEssentials extends JavaPlugin{
             getCommand("enchant").setExecutor(new enchant());
             getCommand("enderchest").setExecutor(new enderchest());
             getCommand("ec").setExecutor(new enderchest());
-            getCommand("endersee").setExecutor(new endersee());
             getCommand("gamemode").setExecutor(new gamemode());
             getCommand("gm").setExecutor(new gamemode());
             getCommand("day").setExecutor(new day());

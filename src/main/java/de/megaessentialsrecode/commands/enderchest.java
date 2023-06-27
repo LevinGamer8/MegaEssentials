@@ -1,6 +1,7 @@
 package de.megaessentialsrecode.commands;
 
 import de.megaessentialsrecode.MegaEssentials;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,14 +21,25 @@ public class enderchest implements CommandExecutor {
 
         Player p = (Player) sender;
 
-        if (!(args.length == 0)) {
-            p.sendMessage(MegaEssentials.Prefix + "§4Nutzung§7: §b/enderchest");
+        if (!(args.length == 0 || args.length == 1)) {
+
+            if (p.hasPermission("megacraft.commands.enderchest.others")) {
+                p.sendMessage(MegaEssentials.Prefix + "§4Nutzung§7: §b/enderchest <Spieler>");
+            } else {
+                p.sendMessage(MegaEssentials.Prefix + "§4Nutzung§7: §b/enderchest");
+            }
             return true;
         }
 
-        Inventory enderchest = p.getEnderChest();
-        p.openInventory(enderchest);
+        if (args.length == 0) {
+            Inventory enderchest = p.getEnderChest();
+            p.openInventory(enderchest);
+        } else if (args.length == 1) {
+            Player target = Bukkit.getPlayer(args[0]);
+            Inventory enderchest = target.getEnderChest();
+            p.openInventory(enderchest);
+        }
 
-        return false;
+        return true;
     }
 }
