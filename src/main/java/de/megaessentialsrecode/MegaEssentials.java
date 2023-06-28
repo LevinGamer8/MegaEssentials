@@ -96,6 +96,7 @@ public final class MegaEssentials extends JavaPlugin{
         getCommand("feed").setExecutor(new feed());
         getCommand("navi").setExecutor(new navigator());
         getCommand("balance").setExecutor(new balance(dataBase));
+        getCommand("balancetop").setExecutor(new balancetop(dataBase));
         getCommand("money").setExecutor(new balance(dataBase));
         getCommand("bank").setExecutor(new bank(dataBase));
         getCommand("pay").setExecutor(new pay());
@@ -135,15 +136,11 @@ public final class MegaEssentials extends JavaPlugin{
         if (!getDataFolder().exists()) {
             getDataFolder().mkdirs();
         }
-
         File configFile = new File(getDataFolder(), "config.yml");
-
         if (!configFile.exists()) {
             saveResource("config.yml", false);
         }
-
         this.saveDefaultConfig();
-
         if (!this.getConfig().contains("mysql.host")) {
             this.getConfig().set("plugin.name", "megaessentials");
             this.getConfig().set("mysql.host", "localhost");

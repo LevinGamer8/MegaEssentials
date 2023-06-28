@@ -16,6 +16,7 @@ commands:
   feed:
   navi:
   balance:
+  balancetop:
   money:
   bank:
   pay:
