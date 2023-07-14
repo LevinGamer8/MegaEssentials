@@ -5,10 +5,7 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import de.megaessentialsrecode.commands.*;
 import de.megaessentialsrecode.listeners.*;
-import de.megaessentialsrecode.utils.DataBase;
-import de.megaessentialsrecode.utils.EconomyProvider;
-import de.megaessentialsrecode.utils.MySQLConnection;
-import de.megaessentialsrecode.utils.PlaceholderProvider;
+import de.megaessentialsrecode.utils.*;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -44,6 +41,7 @@ public final class MegaEssentials extends JavaPlugin{
         createTables();
         registerCommands();
         registerListeners();
+
     }
 
 
@@ -62,6 +60,13 @@ public final class MegaEssentials extends JavaPlugin{
             new PlaceholderProvider().register();
             logger.log(Level.INFO, "Hooked in 'PlaceholderAPI'");
         }
+    }
+
+    public void startMoneyGiveTask() {
+        int delay = 20 * 60 * 10;
+        int period = 20 * 60 * 10;
+
+        new MoneyGiveTask().runTaskTimer(this, delay, period);
     }
 
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
