@@ -2,7 +2,6 @@ package de.megaessentialsrecode.utils;
 
 import de.megaessentialsrecode.MegaEssentials;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class PlaceholderProvider extends PlaceholderExpansion {

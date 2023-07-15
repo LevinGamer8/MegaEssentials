@@ -159,6 +159,7 @@ public final class MegaEssentials extends JavaPlugin{
             this.getConfig().set("spawn.z", "1");
             this.getConfig().set("spawn.world", "world");
 
+            this.getConfig().set("plugin.name", "MegaEssentials");
             this.saveConfig();
         }
     }
