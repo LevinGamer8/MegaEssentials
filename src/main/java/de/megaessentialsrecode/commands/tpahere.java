@@ -33,10 +33,10 @@ public class tpahere implements CommandExecutor {
         }
 
         target.sendMessage(MegaEssentials.Prefix + "§a" + p.getName() + " §6fragt, ob du dich zu ihm §bteleportieren §6möchtest§7.\n§bZum annehmen /tpaccept");
-
+        p.sendMessage(MegaEssentials.Prefix + "§6Du hast §b" + target.getName() + " §agefragt ob er sich zu §6dir §bteleportieren §amöchte§7.");
         Location tpaloc = p.getLocation();
 
-        TPAUtils tpaUtils = new TPAUtils(p, target, tpaloc, true);
+        TPAUtils tpaUtils = new TPAUtils(target, p, tpaloc, true);
         TPAHandler.initiateRequest(tpaUtils);
 
         return false;

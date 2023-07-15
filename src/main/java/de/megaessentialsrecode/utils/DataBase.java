@@ -45,11 +45,10 @@ public class DataBase {
     public static void setup(OfflinePlayer offlinePlayer) {
         if (!exist(offlinePlayer)) {
             try (PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO player_money (uuid, name, money, bank) VALUES (?, ?, ?, ?)")) {
+                    "INSERT INTO player_money (uuid, name, money) VALUES (?, ?, ?)")) {
                 statement.setString(1, offlinePlayer.getUniqueId().toString());
                 statement.setString(2, offlinePlayer.getName());
                 statement.setString(3, String.valueOf(Double.parseDouble("10000")));
-                statement.setString(4, String.valueOf(Double.parseDouble("0")));
                 statement.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -72,40 +71,17 @@ public class DataBase {
         return 0;
     }
 
-    public static double getEconomyBank(OfflinePlayer offlinePlayer) {
-        try (PreparedStatement statement = connection.prepareStatement(
-                "SELECT bank FROM player_money WHERE uuid = ?")) {
-            statement.setString(1, offlinePlayer.getUniqueId().toString());
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    return resultSet.getDouble("bank");
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
     public static void addEconomy(OfflinePlayer offlinePlayer, double amount) {
         double currentBalance = getEconomy(offlinePlayer);
         setEconomy(offlinePlayer, currentBalance + amount);
     }
 
-    public static void addEconomyBank(OfflinePlayer offlinePlayer, double amount) {
-        double currentBalance = getEconomyBank(offlinePlayer);
-        setEconomyBank(offlinePlayer, currentBalance + amount);
-    }
 
     public static void removeEconomy(OfflinePlayer offlinePlayer, double amount) {
         double currentBalance = getEconomy(offlinePlayer);
         setEconomy(offlinePlayer, currentBalance - amount);
     }
 
-    public static void removeEconomyBank(OfflinePlayer offlinePlayer, double amount) {
-        double currentBalance = getEconomyBank(offlinePlayer);
-        setEconomyBank(offlinePlayer, currentBalance - amount);
-    }
 
     public static void setEconomy(OfflinePlayer offlinePlayer, double amount) {
         try (PreparedStatement statement = connection.prepareStatement(
@@ -118,24 +94,11 @@ public class DataBase {
         }
     }
 
-    public static void setEconomyBank(OfflinePlayer offlinePlayer, double amount) {
-        try (PreparedStatement statement = connection.prepareStatement(
-                "UPDATE player_money SET bank = ? WHERE uuid = ?")) {
-            statement.setDouble(1, amount);
-            statement.setString(2, offlinePlayer.getUniqueId().toString());
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     public static void resetEconomy(OfflinePlayer offlinePlayer) {
         setEconomy(offlinePlayer, Double.parseDouble("10000"));
     }
 
-    public static void resetEconomyBank(OfflinePlayer offlinePlayer) {
-        setEconomy(offlinePlayer, Double.parseDouble("0"));
-    }
 
     public static List<String> getAllRegisteredPlayers() {
         List<String> registeredPlayers = new ArrayList<>();

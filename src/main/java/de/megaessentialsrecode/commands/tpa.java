@@ -36,7 +36,7 @@ public class tpa implements CommandExecutor {
         Player target = Bukkit.getPlayer(args[0]);
 
         target.sendMessage(MegaEssentials.Prefix + "§a" + p.getName() + " §6möchte sich zu dir §bteleportieren§7.\n§bZum annehmen /tpaccept");
-
+        p.sendMessage(MegaEssentials.Prefix + "§§6Du hast §b" + target.getName() + " §agefragt ob du dich zu §6ihm §bteleportieren §adarfst§7.");
 
 
         Location tpaloc = target.getLocation();

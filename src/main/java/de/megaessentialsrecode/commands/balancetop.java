@@ -48,13 +48,13 @@ public class balancetop implements CommandExecutor {
         sortedBalances.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
 
         int count = 0;
-        sender.sendMessage("Top 10 Kontostände:");
+        sender.sendMessage(MegaEssentials.Prefix + "§6Top §b10 §aKontostände:");
 
         for (Map.Entry<String, Double> entry : sortedBalances) {
             String playerName = entry.getKey();
             double balance = entry.getValue();
 
-            sender.sendMessage(playerName + ": " + balance);
+            sender.sendMessage(MegaEssentials.Prefix + "§6" + playerName + "§7: §a" + economyProvider.format(balance) + " §b€");
 
             count++;
             if (count >= 10) {

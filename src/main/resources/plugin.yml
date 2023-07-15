@@ -9,32 +9,48 @@ author: LevinGamer8
 description: just another essentials Plugin
 commands:
   admin:
+    permission: megacraft.command.admin
   fly:
+    permission: megacraft.command.fly
   tpa:
   tpahere:
   heal:
+    permission: megacraft.command.heal
   feed:
+    permission: megacraft.command.feed
   navi:
+    permission: megacraft.command.navi
   balance:
   balancetop:
   money:
-  bank:
   pay:
   eco:
+    permission: megacraft.command.eco
   invsee:
+    permission: megacraft.command.invsee
   tpaccept:
   enchant:
+    permission: megacraft.command.enchant
   enderchest:
   ec:
-  endersee:
   gamemode:
+    permission: megacraft.command.gamemode
   gm:
+    permission: megacraft.command.gamemode
   day:
+    permission: megacraft.command.day
   night:
+    permission: megacraft.command.night
   sun:
+    permission: megacraft.command.sun
   rain:
+    permission: megacraft.command.rain
   tp:
+    permission: megacraft.command.teleport
   tphere:
+    permission: megacraft.command.tphere
   spawn:
   setspawn:
+    permission: megacraft.command.setspawn
   repair:
+    permission: megacraft.command.repair

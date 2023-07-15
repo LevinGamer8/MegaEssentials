@@ -86,7 +86,7 @@ public final class MegaEssentials extends JavaPlugin{
 
     private void createTables() {
         try (PreparedStatement statement = MySQLConnection.getConnection().prepareStatement(
-                "CREATE TABLE IF NOT EXISTS player_money (uuid VARCHAR(36) PRIMARY KEY, name VARCHAR(100), money DOUBLE, bank DOUBLE)")) {
+                "CREATE TABLE IF NOT EXISTS player_money (uuid VARCHAR(36) PRIMARY KEY, name VARCHAR(100), money DOUBLE)")) {
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -103,7 +103,6 @@ public final class MegaEssentials extends JavaPlugin{
         getCommand("balance").setExecutor(new balance(dataBase));
         getCommand("balancetop").setExecutor(new balancetop(dataBase));
         getCommand("money").setExecutor(new balance(dataBase));
-        getCommand("bank").setExecutor(new bank(dataBase));
         getCommand("pay").setExecutor(new pay());
         getCommand("eco").setExecutor(new eco());
         getCommand("invsee").setExecutor(new invsee());
@@ -131,7 +130,6 @@ public final class MegaEssentials extends JavaPlugin{
         Bukkit.getPluginManager().registerEvents(new Listener(), this);
         Bukkit.getPluginManager().registerEvents(new AdminListener(), this);
         Bukkit.getPluginManager().registerEvents(new ChatListener(), this);
-        Bukkit.getPluginManager().registerEvents(new ChestShopListener(), this);
         Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         Bukkit.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this::onPluginMessageReceived);
     }
