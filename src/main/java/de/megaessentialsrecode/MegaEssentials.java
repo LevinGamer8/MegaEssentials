@@ -85,8 +85,24 @@ public final class MegaEssentials extends JavaPlugin{
 
 
     private void createTables() {
-        try (PreparedStatement statement = MySQLConnection.getConnection().prepareStatement(
-                "CREATE TABLE IF NOT EXISTS player_money (uuid VARCHAR(36) PRIMARY KEY, name VARCHAR(100), money DOUBLE)")) {
+
+        if (!(Bukkit.getPluginManager().getPlugin("FWSystem") == null)) {
+
+            try (PreparedStatement statement = MySQLConnection.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS player_money (uuid VARCHAR(36) PRIMARY KEY, name VARCHAR(100), money DOUBLE)"))  {
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            try (PreparedStatement statement = MySQLConnection.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS jobs (uuid VARCHAR(36) PRIMARY KEY, name VARCHAR(100), job VARCHAR (20))"))  {
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        try (PreparedStatement statement = MySQLConnection.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS player_money (uuid VARCHAR(36) PRIMARY KEY, name VARCHAR(100), money DOUBLE)"))  {
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -120,9 +136,11 @@ public final class MegaEssentials extends JavaPlugin{
         getCommand("rain").setExecutor(new rain());
         getCommand("tp").setExecutor(new tp());
         getCommand("tphere").setExecutor(new tphere());
-        getCommand("spawn").setExecutor(new spawn());
-        getCommand("setspawn").setExecutor(new setSpawn(this));
         getCommand("repair").setExecutor(new repair());
+        if (this.getConfig().getBoolean("spawn.enabled")) {
+            getCommand("spawn").setExecutor(new spawn());
+            getCommand("setspawn").setExecutor(new setSpawn(this));
+        }
     }
 
     public void registerListeners() {
@@ -152,6 +170,7 @@ public final class MegaEssentials extends JavaPlugin{
             this.getConfig().set("mysql.username", "user");
             this.getConfig().set("mysql.password", "password");
 
+            this.getConfig().set("spawn.enabled", "true");
             this.getConfig().set("spawn.x", "1");
             this.getConfig().set("spawn.y", "1");
             this.getConfig().set("spawn.z", "1");

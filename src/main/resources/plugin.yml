@@ -3,7 +3,9 @@ version: '1.0'
 main: de.megaessentialsrecode.MegaEssentials
 api-version: 1.19
 load: STARTUP
-softdepend:
+loadbefore:
+  - FWSystem
+depend:
   - Vault
 author: LevinGamer8
 description: just another essentials Plugin
