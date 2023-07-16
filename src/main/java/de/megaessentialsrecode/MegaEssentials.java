@@ -41,7 +41,7 @@ public final class MegaEssentials extends JavaPlugin{
         createTables();
         registerCommands();
         registerListeners();
-
+        startMoneyGiveTask();
     }
 
 

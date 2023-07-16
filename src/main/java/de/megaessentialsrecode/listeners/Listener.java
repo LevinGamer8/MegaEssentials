@@ -26,7 +26,9 @@ public class Listener implements org.bukkit.event.Listener {
         BukkitTask bukkitTask = Bukkit.getScheduler().runTaskTimer(MegaEssentials.getInstance(), () -> Teams.set(p.getScoreboard()), 1, 10);
         Ränge.putInTeamSchedulers(p, bukkitTask);
         e.setJoinMessage("");
-        Locations.teleportToSpawn(p);
+        if (MegaEssentials.getInstance().getConfig().getBoolean("spawn.enabled")) {
+            Locations.teleportToSpawn(p);
+        }
     }
 
     @EventHandler
