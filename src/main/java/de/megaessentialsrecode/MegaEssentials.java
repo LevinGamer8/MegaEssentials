@@ -137,6 +137,7 @@ public final class MegaEssentials extends JavaPlugin{
         getCommand("tp").setExecutor(new tp());
         getCommand("tphere").setExecutor(new tphere());
         getCommand("repair").setExecutor(new repair());
+        getCommand("battlepass").setExecutor(new battlepass());
         if (this.getConfig().getBoolean("spawn.enabled")) {
             getCommand("spawn").setExecutor(new spawn());
             getCommand("setspawn").setExecutor(new setSpawn(this));

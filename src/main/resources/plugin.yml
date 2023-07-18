@@ -56,3 +56,4 @@ commands:
     permission: megacraft.command.setspawn
   repair:
     permission: megacraft.command.repair
+  battlepass:
