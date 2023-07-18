@@ -1,6 +1,6 @@
 package de.megaessentialsrecode.scoreboard;
 
-import de.megaessentialsrecode.utils.Ränge;
+import de.megaessentialsrecode.utils.Ranks;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import org.bukkit.Bukkit;
@@ -13,15 +13,15 @@ public class Teams {
     }
 
     public static void create(Scoreboard scoreboard) {
-        registerTeam(scoreboard, "0001Owner", Ränge.Ownerprefix, ChatColor.GRAY);
-        registerTeam(scoreboard, "0002Admin", Ränge.Adminprefix, ChatColor.GRAY);
-        registerTeam(scoreboard, "0003Moderator", Ränge.Moderatorprefix, ChatColor.GRAY);
-        registerTeam(scoreboard, "0004Builder", Ränge.Builderprefix, ChatColor.GRAY);
-        registerTeam(scoreboard, "0005Supporter", Ränge.Supporterprefix, ChatColor.GRAY);
-        registerTeam(scoreboard, "0006Partner", Ränge.Partnerprefix, ChatColor.GRAY);
-        registerTeam(scoreboard, "0007T-Team", Ränge.Tteamprefix, ChatColor.GRAY);
-        registerTeam(scoreboard, "0008MEGA", Ränge.Megaprefix, ChatColor.GRAY);
-        registerTeam(scoreboard, "0099Spieler", Ränge.Spielerprefix, ChatColor.GRAY);
+        registerTeam(scoreboard, "0001Owner", Ranks.Ownerprefix, ChatColor.GRAY);
+        registerTeam(scoreboard, "0002Admin", Ranks.Adminprefix, ChatColor.GRAY);
+        registerTeam(scoreboard, "0003Moderator", Ranks.Moderatorprefix, ChatColor.GRAY);
+        registerTeam(scoreboard, "0004Builder", Ranks.Builderprefix, ChatColor.GRAY);
+        registerTeam(scoreboard, "0005Supporter", Ranks.Supporterprefix, ChatColor.GRAY);
+        registerTeam(scoreboard, "0006Partner", Ranks.Partnerprefix, ChatColor.GRAY);
+        registerTeam(scoreboard, "0007T-Team", Ranks.Tteamprefix, ChatColor.GRAY);
+        registerTeam(scoreboard, "0008MEGA", Ranks.Megaprefix, ChatColor.GRAY);
+        registerTeam(scoreboard, "0099Spieler", Ranks.Spielerprefix, ChatColor.GRAY);
     }
 
     public static void set(Scoreboard scoreboard) {

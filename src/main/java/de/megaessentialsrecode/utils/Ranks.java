@@ -6,7 +6,7 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Ränge {
+public class Ranks {
 
     public static String Ownerprefix = "§x§1§a§c§6§e§4O§x§1§4§c§b§d§9w§x§0§d§c§f§c§en§x§0§7§d§4§c§2e§x§0§0§d§8§b§7r §8| ";
     public static String Adminprefix = "§x§e§4§2§8§1§5A§x§d§7§2§3§1§3d§x§c§b§1§d§1§1m§x§b§e§1§8§0§fi§x§b§1§1§2§0§dn §8| ";

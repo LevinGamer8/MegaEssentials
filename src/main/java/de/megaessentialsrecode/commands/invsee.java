@@ -5,10 +5,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class invsee implements CommandExecutor {
+import java.util.ArrayList;
+import java.util.List;
+
+public class invsee implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
 
@@ -44,5 +50,21 @@ public class invsee implements CommandExecutor {
                 p.openInventory(inv);
             }
         return false;
+    }
+    @Nullable
+    @Override
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+        List<String> completions = new ArrayList<>();
+        if (sender instanceof Player) {
+            Player p = (Player) sender;
+            if (p.hasPermission("megacraft.command.invsee")) {
+                if (args.length == 1) {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        completions.add(player.getName());
+                    }
+                }
+            }
+        }
+        return completions;
     }
 }

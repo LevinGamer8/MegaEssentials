@@ -29,10 +29,10 @@ public class balancetop implements CommandExecutor {
             return true;
         }
 
-        Player player = (Player) sender;
+        Player p = (Player) sender;
 
         if (!(args.length == 0)) {
-            sender.sendMessage(MegaEssentials.Prefix + "§4Nutze: §b/balancetop");
+            p.sendMessage(MegaEssentials.Prefix + "§4Nutzung§7: §b/balancetop");
             return true;
         }
         List<String> registeredPlayers = DataBase.getAllRegisteredPlayers();
@@ -48,13 +48,13 @@ public class balancetop implements CommandExecutor {
         sortedBalances.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
 
         int count = 0;
-        sender.sendMessage(MegaEssentials.Prefix + "§6Top §b10 §aKontostände:");
+        p.sendMessage(MegaEssentials.Prefix + "§6Top §b10 §aKontostände:");
 
         for (Map.Entry<String, Double> entry : sortedBalances) {
             String playerName = entry.getKey();
             double balance = entry.getValue();
 
-            sender.sendMessage(MegaEssentials.Prefix + "§6" + playerName + "§7: §a" + economyProvider.format(balance) + " §b€");
+            p.sendMessage(MegaEssentials.Prefix + "§6" + playerName + "§7: §a" + economyProvider.format(balance) + " §b€");
 
             count++;
             if (count >= 10) {

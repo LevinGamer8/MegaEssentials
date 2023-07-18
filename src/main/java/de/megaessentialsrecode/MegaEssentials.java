@@ -138,6 +138,7 @@ public final class MegaEssentials extends JavaPlugin{
         getCommand("tphere").setExecutor(new tphere());
         getCommand("repair").setExecutor(new repair());
         getCommand("battlepass").setExecutor(new battlepass());
+        getCommand("info").setExecutor(new info());
         if (this.getConfig().getBoolean("spawn.enabled")) {
             getCommand("spawn").setExecutor(new spawn());
             getCommand("setspawn").setExecutor(new setSpawn(this));
@@ -146,9 +147,12 @@ public final class MegaEssentials extends JavaPlugin{
 
     public void registerListeners() {
         Bukkit.getPluginManager().registerEvents(new navi(instance), this);
-        Bukkit.getPluginManager().registerEvents(new Listener(), this);
+        Bukkit.getPluginManager().registerEvents(new EssentialListener(), this);
         Bukkit.getPluginManager().registerEvents(new AdminListener(), this);
         Bukkit.getPluginManager().registerEvents(new ChatListener(), this);
+        if (!(Bukkit.getPluginManager().getPlugin("LuckPerms") == null)) {
+            Bukkit.getPluginManager().registerEvents(new RankListener(), this);
+        }
         Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         Bukkit.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this::onPluginMessageReceived);
     }

@@ -5,9 +5,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class feed implements CommandExecutor {
+import java.util.ArrayList;
+import java.util.List;
+
+public class feed implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand( CommandSender sender, Command command, String s, String[] args) {
 
@@ -44,8 +50,23 @@ public class feed implements CommandExecutor {
         } else {
             p.sendMessage(MegaEssentials.Prefix + MegaEssentials.noPerms);
         }
-
-
         return true;
+    }
+
+    @Nullable
+    @Override
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+        List<String> completions = new ArrayList<>();
+        if (sender instanceof Player) {
+            Player p = (Player) sender;
+            if (p.hasPermission("megacraft.command.feed.others")) {
+                if (args.length == 1) {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        completions.add(player.getName());
+                    }
+                }
+            }
+        }
+        return completions;
     }
 }

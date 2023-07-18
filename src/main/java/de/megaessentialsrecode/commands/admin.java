@@ -14,12 +14,24 @@ import org.bukkit.inventory.ItemStack;
 public class admin implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+
+
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(MegaEssentials.Prefix + "§4Dieser Command ist nur für Spieler!");
+            return true;
+        }
+
+
         Player p = (Player) sender;
+        if (!(p.hasPermission("megacraft.command.admin"))) {
+            p.sendMessage(MegaEssentials.Prefix + MegaEssentials.noPerms);
+            return true;
+        }
+
         if (!(args.length == 0)) {
             p.sendMessage(MegaEssentials.Prefix + "§4Nutzung§7: §b/admin");
             return true;
         }
-        if (p.hasPermission("megacraft.command.admin")) {
             Inventory inv = Bukkit.createInventory(null, 3 * 9, "§4ADMIN");
             ItemStack glass_pane = new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE).setDisplayName("§b").build();
             for(int i = 0; i < 27; i++) {
@@ -27,9 +39,6 @@ public class admin implements CommandExecutor {
             }
             inv.setItem(2, new ItemBuilder(Material.GOLD_INGOT).setDisplayName("§6GELD").setLore("§6Gebe den Spielern Geld!").build());
             p.openInventory(inv);
-        } else {
-            p.sendMessage(MegaEssentials.Prefix + MegaEssentials.noPerms);
-        }
         return false;
-    }
+        }
 }

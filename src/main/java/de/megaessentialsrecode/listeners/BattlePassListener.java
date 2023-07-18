@@ -18,7 +18,7 @@ public class BattlePassListener implements Listener {
             if (item.getItemMeta().getDisplayName() == "§bDiamant Block") {
                 e.getView().close();
                 p.getInventory().addItem(new ItemBuilder(Material.DIAMOND_BLOCK).setDisplayName("§bDiamant Block").setLore("§3MegaCraft").build());
-                p.sendTitle("§aErfolgreich", "§bDiamant Block");
+                p.sendTitle("§bDiamant Block", "§aerfolgreich eingefordert");
             }
         }
 
