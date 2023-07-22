@@ -85,23 +85,6 @@ public final class MegaEssentials extends JavaPlugin{
 
 
     private void createTables() {
-
-        if (!(Bukkit.getPluginManager().getPlugin("FWSystem") == null)) {
-
-            try (PreparedStatement statement = MySQLConnection.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS player_money (uuid VARCHAR(36) PRIMARY KEY, name VARCHAR(100), money DOUBLE)"))  {
-                statement.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-            try (PreparedStatement statement = MySQLConnection.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS jobs (uuid VARCHAR(36) PRIMARY KEY, name VARCHAR(100), job VARCHAR (20))"))  {
-                statement.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-        }
-
         try (PreparedStatement statement = MySQLConnection.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS player_money (uuid VARCHAR(36) PRIMARY KEY, name VARCHAR(100), money DOUBLE)"))  {
             statement.executeUpdate();
         } catch (SQLException e) {
