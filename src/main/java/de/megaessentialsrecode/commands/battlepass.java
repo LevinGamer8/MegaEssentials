@@ -33,9 +33,9 @@ public class battlepass implements CommandExecutor {
         }
 
         if (args.length == 0) {
-            Inventory inv = Bukkit.createInventory(null, 5*9, "§bBattle Pass");
+            Inventory inv = Bukkit.createInventory(null, 5*9, "§bBattle§7-§bPass");
 
-            for (int i = 0; i < 9; i++) {
+            for (int i = 0; i < 45; i++) {
                 inv.setItem(i, glass_pane);
             }
 
