@@ -8,8 +8,16 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.plugin.Plugin;
 
 public class EssentialListener implements org.bukkit.event.Listener {
+
+    private final Plugin plugin;
+
+    public EssentialListener(Plugin plugin) {
+        this.plugin = plugin;
+    }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
@@ -17,6 +25,7 @@ public class EssentialListener implements org.bukkit.event.Listener {
         if (!(DataBase.exist(p))) {
             DataBase.setup(p);
         }
+        p.setMetadata("BPS.0", new FixedMetadataValue(plugin, true));
         e.setJoinMessage("");
         if (MegaEssentials.getInstance().getConfig().getBoolean("spawn.enabled")) {
             Locations.teleportToSpawn(p);

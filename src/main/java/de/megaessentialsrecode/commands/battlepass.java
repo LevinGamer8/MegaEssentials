@@ -1,6 +1,5 @@
 package de.megaessentialsrecode.commands;
 
-import com.sun.tools.classfile.ConstantPool;
 import de.megaessentialsrecode.MegaEssentials;
 import de.megaessentialsrecode.utils.ItemBuilder;
 import org.bukkit.Bukkit;
@@ -40,6 +39,7 @@ public class battlepass implements CommandExecutor {
             }
 
             inv.setItem(19, new ItemBuilder(Material.DIAMOND_BLOCK).setDisplayName("§bDiamant Block").build());
+            inv.setItem(20, new ItemBuilder(Material.EMERALD_ORE).setDisplayName("§aSmaragd Erz").build());
             p.openInventory(inv);
         }
 

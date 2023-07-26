@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +41,10 @@ public class eco implements CommandExecutor, TabCompleter {
             OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
             if (target.isOnline()) {
                 Player target1 = Bukkit.getPlayer(args[1]);
+                if (!(DataBase.exist(target))) {
+                    sender.sendMessage(MegaEssentials.Prefix + "§4Der Spieler §6" + target.getName() + " §4existiert nicht!");
+                    return true;
+                }
                 DataBase.addEconomy(target, amount);
                 sender.sendMessage(MegaEssentials.Prefix + "§6Du §bhast " + target.getName() + "§6 " + this.economyProvider.format(amount) + " §b€ §agegeben");
                 target1.sendMessage(MegaEssentials.Prefix + "§bDir wurden §6" + this.economyProvider.format(amount) + " §b€ §agegeben");
@@ -61,6 +66,10 @@ public class eco implements CommandExecutor, TabCompleter {
             OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
             if (target.isOnline()) {
                 Player target1 = Bukkit.getPlayer(args[1]);
+                if (!(DataBase.exist(target))) {
+                    sender.sendMessage(MegaEssentials.Prefix + "§4Der Spieler §6" + target.getName() + " §4existiert nicht!");
+                    return true;
+                }
                 DataBase.removeEconomy(target, amount);
                 sender.sendMessage(MegaEssentials.Prefix + "§6Du §bhast " + target.getName() + "§6 " + this.economyProvider.format(amount) + " §b€ §cabgezogen");
                 target1.sendMessage(MegaEssentials.Prefix + "§bDir wurden §6" + this.economyProvider.format(amount) + " §b€ §cabgezogen");
@@ -81,6 +90,10 @@ public class eco implements CommandExecutor, TabCompleter {
             OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
             if (target.isOnline()) {
                 Player target1 = Bukkit.getPlayer(args[1]);
+                if (!(DataBase.exist(target))) {
+                    sender.sendMessage(MegaEssentials.Prefix + "§4Der Spieler §6" + target.getName() + " §4existiert nicht!");
+                    return true;
+                }
                 DataBase.setEconomy(target, amount);
                 sender.sendMessage(MegaEssentials.Prefix + "§6Du hast §b" + target.getName() + " 's §6Kontostand §bauf §6 " + this.economyProvider.format(amount) + " §b€ gesetzt");
                 target1.sendMessage(MegaEssentials.Prefix + "§6Dein Kontostand §bwude auf §6" + this.economyProvider.format(amount) + " §b€ gesetzt");
@@ -96,6 +109,10 @@ public class eco implements CommandExecutor, TabCompleter {
             OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
             if (target.isOnline()) {
                 Player target1 = Bukkit.getPlayer(args[1]);
+                if (!(DataBase.exist(target))) {
+                    sender.sendMessage(MegaEssentials.Prefix + "§4Der Spieler §6" + target.getName() + " §4existiert nicht!");
+                    return true;
+                }
                 DataBase.resetEconomy(Bukkit.getPlayer(args[1]));
                 sender.sendMessage(MegaEssentials.Prefix + "§6Du hast §b" + target.getName() + " 's §6Kontostand zurückgesetzt");
                 target1.sendMessage(MegaEssentials.Prefix + "§6Dein Kontostand §bwurde zurückgesetzt");

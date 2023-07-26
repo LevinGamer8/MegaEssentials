@@ -130,7 +130,7 @@ public final class MegaEssentials extends JavaPlugin{
 
     public void registerListeners() {
         Bukkit.getPluginManager().registerEvents(new navi(instance), this);
-        Bukkit.getPluginManager().registerEvents(new EssentialListener(), this);
+        Bukkit.getPluginManager().registerEvents(new EssentialListener(this), this);
         Bukkit.getPluginManager().registerEvents(new AdminListener(), this);
         Bukkit.getPluginManager().registerEvents(new ChatListener(), this);
         if (this.getConfig().getBoolean("battlepass.enabled")) {
