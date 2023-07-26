@@ -134,7 +134,7 @@ public final class MegaEssentials extends JavaPlugin{
         Bukkit.getPluginManager().registerEvents(new AdminListener(), this);
         Bukkit.getPluginManager().registerEvents(new ChatListener(), this);
         if (this.getConfig().getBoolean("battlepass.enabled")) {
-            Bukkit.getPluginManager().registerEvents(new BattlePassListener(), this);
+            Bukkit.getPluginManager().registerEvents(new BattlePassListener(this), this);
         }
         if (!(Bukkit.getPluginManager().getPlugin("LuckPerms") == null)) {
             Bukkit.getPluginManager().registerEvents(new RankListener(), this);
