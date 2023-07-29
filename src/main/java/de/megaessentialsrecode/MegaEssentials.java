@@ -108,11 +108,13 @@ public final class MegaEssentials extends JavaPlugin{
         getCommand("heal").setExecutor(new heal());
         getCommand("feed").setExecutor(new feed());
         getCommand("navi").setExecutor(new navigator());
-        getCommand("balance").setExecutor(new balance(dataBase));
-        getCommand("balancetop").setExecutor(new balancetop(dataBase));
-        getCommand("money").setExecutor(new balance(dataBase));
-        getCommand("pay").setExecutor(new pay());
-        getCommand("eco").setExecutor(new eco());
+        if (this.getConfig().getBoolean("economy.enabled")) {
+            getCommand("balance").setExecutor(new balance(dataBase));
+            getCommand("balancetop").setExecutor(new balancetop(dataBase));
+            getCommand("money").setExecutor(new balance(dataBase));
+            getCommand("pay").setExecutor(new pay());
+            getCommand("eco").setExecutor(new eco());
+        }
         getCommand("invsee").setExecutor(new invsee());
         getCommand("tpa").setExecutor(new tpa());
         getCommand("tpahere").setExecutor(new tpahere());
@@ -172,7 +174,7 @@ public final class MegaEssentials extends JavaPlugin{
             this.getConfig().set("mysql.database", "essentials");
             this.getConfig().set("mysql.username", "user");
             this.getConfig().set("mysql.password", "password");
-
+            this.getConfig().set("economy.enabled", "true");
             this.getConfig().set("spawn.enabled", "true");
             this.getConfig().set("spawn.x", "1");
             this.getConfig().set("spawn.y", "1");
