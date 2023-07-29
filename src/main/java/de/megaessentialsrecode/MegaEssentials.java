@@ -174,9 +174,7 @@ public final class MegaEssentials extends JavaPlugin{
             this.getConfig().set("mysql.database", "essentials");
             this.getConfig().set("mysql.username", "user");
             this.getConfig().set("mysql.password", "password");
-
             this.getConfig().set("economy.enabled", "true");
-
             this.getConfig().set("spawn.enabled", "true");
             this.getConfig().set("spawn.x", "1");
             this.getConfig().set("spawn.y", "1");
