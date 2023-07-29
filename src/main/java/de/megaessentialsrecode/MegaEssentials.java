@@ -131,7 +131,7 @@ public final class MegaEssentials extends JavaPlugin{
         getCommand("tp").setExecutor(new tp());
         getCommand("tphere").setExecutor(new tphere());
         getCommand("repair").setExecutor(new repair());
-        if (Bukkit.getMotd().contains("CB")) {
+        if (this.getConfig().getBoolean("battlepass.enabled")) {
             getCommand("battlepass").setExecutor(new battlepass());
         }
         getCommand("player").setExecutor(new info());
