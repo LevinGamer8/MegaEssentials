@@ -131,7 +131,7 @@ public final class MegaEssentials extends JavaPlugin{
         getCommand("tp").setExecutor(new tp());
         getCommand("tphere").setExecutor(new tphere());
         getCommand("repair").setExecutor(new repair());
-        if (Bukkit.getMotd().contains("CB")) {
+        if (this.getConfig().getBoolean("battlepass.enabled")) {
             getCommand("battlepass").setExecutor(new battlepass());
         }
         getCommand("player").setExecutor(new info());
@@ -166,7 +166,7 @@ public final class MegaEssentials extends JavaPlugin{
             saveResource("config.yml", false);
         }
         this.saveDefaultConfig();
-        if (!this.getConfig().contains("mysql.host")) {
+        if (!this.getConfig().contains("mysql.host") && this.getConfig().contains("spawn.world")) {
             this.getConfig().set("plugin.name", "megaessentials");
             this.getConfig().set("plugin.prefix", "§3MegaCraft§7: §r");
             this.getConfig().set("mysql.host", "localhost");
