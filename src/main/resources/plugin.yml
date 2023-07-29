@@ -57,5 +57,5 @@ commands:
   repair:
     permission: megacraft.command.repair
   battlepass:
-  info:
-    permission: megacraft.command.info
+  player:
+    permission: megacraft.command.player

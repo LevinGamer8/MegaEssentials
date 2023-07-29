@@ -71,6 +71,8 @@ public class DataBase {
         return 0;
     }
 
+
+
     public static void addEconomy(OfflinePlayer offlinePlayer, double amount) {
         double currentBalance = getEconomy(offlinePlayer);
         setEconomy(offlinePlayer, currentBalance + amount);

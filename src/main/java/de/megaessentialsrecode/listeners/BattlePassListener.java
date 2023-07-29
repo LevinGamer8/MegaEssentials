@@ -22,6 +22,7 @@ public class BattlePassListener implements Listener {
     private final String STONEBROKEN_METADATA = "BPS.STONEBROKEN";
     private final String BPS_1_METADATA = "BPS.1";
     private final String BPS_2_METADATA = "BPS.2";
+    private boolean has1 = false;
 
     public BattlePassListener(Plugin plugin) {
         this.plugin = plugin;
@@ -71,42 +72,44 @@ public class BattlePassListener implements Listener {
         if (p.hasMetadata("BPS.0")) {
         if (getEntityKills(p) >= 50) {
             p.setMetadata(BPS_1_METADATA, new FixedMetadataValue(plugin, true));
-            p.removeMetadata(BPS_2_METADATA, plugin);
+            p.removeMetadata("BPS.0", plugin);
         } else {
             p.sendMessage(MegaEssentials.Prefix + "§bDu hast §a" + getEntityKills(p) + "§7/§b50");
         }
-        } else if (p.hasMetadata(BPS_1_METADATA)) {
-            if (getStonebrokens(p) >= 10) {
+        }
+        if (has1) {
+            if (getStonebrokens(p) >= 100) {
                 p.setMetadata(BPS_2_METADATA, new FixedMetadataValue(plugin, true));
+                p.removeMetadata(BPS_1_METADATA, plugin);
             } else {
-                p.sendMessage(MegaEssentials.Prefix + "§bDu hast §a" + getEntityKills(p) + "§7/§b100");
+                p.sendMessage(MegaEssentials.Prefix + "§bDu hast §a" + getStonebrokens(p) + "§7/§b100");
             }
         }
     }
+
 
     @EventHandler
     public void onInvClick(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
         ItemStack item = e.getCurrentItem();
         if (e.getView().getTitle().equals("§bBattle§7-§bPass")) {
+            e.setCancelled(true);
             checkPass(p);
             if (p.hasMetadata(BPS_1_METADATA)) {
                 if (item.getType() == Material.DIAMOND_BLOCK) {
-                    e.setCancelled(true);
                     if (item.getItemMeta().getDisplayName().equals("§bDiamant Block")) {
                         e.getView().close();
                         p.getInventory().addItem(new ItemBuilder(Material.DIAMOND_BLOCK).setDisplayName("§bDiamant Block").setLore("§7Signiert von §3MegaCraft").build());
+                        has1 = true;
                         p.sendTitle("§bDiamant Block", "§aErfolgreich eingefordert§7!");
-                        p.removeMetadata("BPS.0", plugin);
+                        p.removeMetadata(BPS_1_METADATA, plugin);
                     }
                 }
-                checkPass(p);
             } else if (p.hasMetadata(BPS_2_METADATA)) {
                 if (item.getType() == Material.EMERALD_ORE) {
-                    e.setCancelled(true);
                     if (item.getItemMeta().getDisplayName().equals("§aSmaragd Erz")) {
                         e.getView().close();
-                        p.getInventory().addItem(new ItemBuilder(Material.DIAMOND_BLOCK).setDisplayName("§aSmaragd Erz").setLore("§7Signiert von §3MegaCraft").build());
+                        p.getInventory().addItem(new ItemBuilder(Material.EMERALD_ORE).setDisplayName("§aSmaragd Erz").setLore("§7Signiert von §3MegaCraft").build());
                         p.sendTitle("§aSmaragd Erz", "§aErfolgreich eingefordert§7!");
                         p.removeMetadata(BPS_2_METADATA, plugin);
                     }

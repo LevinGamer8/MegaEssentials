@@ -19,7 +19,7 @@ public class night implements CommandExecutor {
             p.sendMessage(MegaEssentials.Prefix + MegaEssentials.noPerms);
             return true;
         }
-        Bukkit.getWorld(p.getWorld().getUID()).setTime(10000);
+        Bukkit.getWorld(p.getWorld().getUID()).setTime(18000);
         p.sendMessage(MegaEssentials.Prefix + "§bEs ist nun §0Nacht");
         return false;
     }

@@ -20,13 +20,13 @@ public class info implements CommandExecutor {
 
         Player p = (Player) sender;
 
-        if (!(p.hasPermission("megacraft.command.info"))) {
+        if (!(p.hasPermission("megacraft.command.player"))) {
             p.sendMessage(MegaEssentials.Prefix + MegaEssentials.noPerms);
             return true;
         }
 
         if (!(args.length == 1)) {
-            p.sendMessage(MegaEssentials.Prefix + "§4Nutzung§7: §b/info [Spieler]");
+            p.sendMessage(MegaEssentials.Prefix + "§4Nutzung§7: §b/player [Spieler]");
             return true;
         }
 

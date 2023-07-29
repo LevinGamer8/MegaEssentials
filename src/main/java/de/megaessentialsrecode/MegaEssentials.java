@@ -27,13 +27,14 @@ public final class MegaEssentials extends JavaPlugin{
     public static Logger logger;
     private static EconomyProvider economyProvider;
     public static String name;
-    public final static String Prefix = "§3MegaCraft§7: §r";
+    public static String Prefix;
     public final static String noPerms = "§4Dazu hast du keine Rechte!";
 
     @Override
     public void onEnable() {
         instance = this;
         name = this.getConfig().getString("plugin.name");
+        Prefix = this.getConfig().getString("plugin.prefix");
         logger = getLogger();
         loadConfig();
         dependencyCheck();
@@ -41,7 +42,7 @@ public final class MegaEssentials extends JavaPlugin{
         createTables();
         registerCommands();
         registerListeners();
-        startMoneyGiveTask();
+        checkPlayerOnlineTime();
     }
 
 
@@ -62,13 +63,19 @@ public final class MegaEssentials extends JavaPlugin{
         }
     }
 
-    public void startMoneyGiveTask() {
-        int delay = 20 * 60 * 10;
-        int period = 20 * 60 * 10;
 
-        new MoneyGiveTask().runTaskTimer(this, delay, period);
+    private void checkPlayerOnlineTime() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            long onlineDuration = System.currentTimeMillis() - player.getFirstPlayed();
+            long requiredDuration = 10 * 60 * 1000;
+
+            if (onlineDuration >= requiredDuration) {
+                int delay = 20 * 60 * 10;
+                int period = 20 * 60 * 10;
+                new MoneyGiveTask().runTaskTimer(this, delay, period);
+            }
+        }
     }
-
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
         if (!channel.equals("BungeeCord")) {
             return;
@@ -90,6 +97,8 @@ public final class MegaEssentials extends JavaPlugin{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+
     }
 
 
@@ -120,8 +129,10 @@ public final class MegaEssentials extends JavaPlugin{
         getCommand("tp").setExecutor(new tp());
         getCommand("tphere").setExecutor(new tphere());
         getCommand("repair").setExecutor(new repair());
-        getCommand("battlepass").setExecutor(new battlepass());
-        getCommand("info").setExecutor(new info());
+        if (Bukkit.getMotd().contains("CB")) {
+            getCommand("battlepass").setExecutor(new battlepass());
+        }
+        getCommand("player").setExecutor(new info());
         if (this.getConfig().getBoolean("spawn.enabled")) {
             getCommand("spawn").setExecutor(new spawn());
             getCommand("setspawn").setExecutor(new setSpawn(this));
@@ -130,7 +141,7 @@ public final class MegaEssentials extends JavaPlugin{
 
     public void registerListeners() {
         Bukkit.getPluginManager().registerEvents(new navi(instance), this);
-        Bukkit.getPluginManager().registerEvents(new EssentialListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new EssentialListener(), this);
         Bukkit.getPluginManager().registerEvents(new AdminListener(), this);
         Bukkit.getPluginManager().registerEvents(new ChatListener(), this);
         if (this.getConfig().getBoolean("battlepass.enabled")) {
@@ -155,6 +166,7 @@ public final class MegaEssentials extends JavaPlugin{
         this.saveDefaultConfig();
         if (!this.getConfig().contains("mysql.host")) {
             this.getConfig().set("plugin.name", "megaessentials");
+            this.getConfig().set("plugin.prefix", "§3MegaCraft§7: §r");
             this.getConfig().set("mysql.host", "localhost");
             this.getConfig().set("mysql.port", 3306);
             this.getConfig().set("mysql.database", "essentials");

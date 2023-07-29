@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 
 public class PlaceholderProvider extends PlaceholderExpansion {
 
-    private EconomyProvider economyProvider = MegaEssentials.getEconomyProvider();
+    private final EconomyProvider economyProvider = MegaEssentials.getEconomyProvider();
     @Override
     public String getIdentifier() {
         return MegaEssentials.getPluginName();
