@@ -34,8 +34,9 @@ public final class MegaEssentials extends JavaPlugin{
     public void onEnable() {
         instance = this;
         name = this.getConfig().getString("plugin.name");
-        Prefix = this.getConfig().getString("plugin.prefix").replace("&", "§");
-        if (Prefix == null) {
+        if (Prefix != null) {
+            Prefix = this.getConfig().getString("plugin.prefix").replace("&", "§");
+        } else {
             Prefix = "§3MegaCraft§7: §r";
         }
         logger = getLogger();
@@ -50,12 +51,14 @@ public final class MegaEssentials extends JavaPlugin{
 
 
     public void dependencyCheck() {
-        if (getServer().getPluginManager().getPlugin("Vault") == null) {
-            getServer().getPluginManager().disablePlugin(this);
-            logger.log(Level.INFO, "Du musst Vault installieren");
-        } else {
-            economyProvider = new EconomyProvider(this);
-            getServer().getServicesManager().register(Economy.class, economyProvider, this, ServicePriority.Normal);
+        if (this.getConfig().getBoolean("economy.enabled")) {
+            if (getServer().getPluginManager().getPlugin("Vault") == null) {
+                getServer().getPluginManager().disablePlugin(this);
+                logger.log(Level.INFO, "Du musst Vault installieren");
+            } else {
+                economyProvider = new EconomyProvider(this);
+                getServer().getServicesManager().register(Economy.class, economyProvider, this, ServicePriority.Normal);
+            }
         }
         if (getServer().getPluginManager().getPlugin("PlaceholderAPI") == null) {
             getServer().getPluginManager().disablePlugin(this);
@@ -185,6 +188,7 @@ public final class MegaEssentials extends JavaPlugin{
             this.getConfig().set("spawn.world", "world");
 
             this.getConfig().set("battlepass.enabled", "true");
+
 
             this.saveConfig();
         }

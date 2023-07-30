@@ -1,0 +1,21 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+blocked_commands:
+  - "pl"
+  - "plugins"
+  - "help"
+  - "?"
+  - "ver"
+  - "version"

@@ -37,6 +37,9 @@ public class PlaceholderProvider extends PlaceholderExpansion {
             return "";
         }
         if (params.equals("money")) {
+            if (MegaEssentials.getEconomyProvider() == null) {
+                return " ";
+            }
             return this.economyProvider.format(DataBase.getEconomy(player));
         }
         return super.onPlaceholderRequest(player, params);
