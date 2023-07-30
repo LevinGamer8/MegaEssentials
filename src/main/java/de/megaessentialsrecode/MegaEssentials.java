@@ -34,7 +34,10 @@ public final class MegaEssentials extends JavaPlugin{
     public void onEnable() {
         instance = this;
         name = this.getConfig().getString("plugin.name");
-        Prefix = this.getConfig().getString("plugin.prefix");
+        Prefix = this.getConfig().getString("plugin.prefix").replace("&", "§");
+        if (Prefix == null) {
+            Prefix = "§3MegaCraft§7: §r";
+        }
         logger = getLogger();
         loadConfig();
         dependencyCheck();
@@ -168,7 +171,7 @@ public final class MegaEssentials extends JavaPlugin{
         this.saveDefaultConfig();
         if (!this.getConfig().contains("mysql.host") && this.getConfig().contains("spawn.world")) {
             this.getConfig().set("plugin.name", "megaessentials");
-            this.getConfig().set("plugin.prefix", "§3MegaCraft§7: §r");
+            this.getConfig().set("plugin.prefix", "&3MegaCraft&7: &r");
             this.getConfig().set("mysql.host", "localhost");
             this.getConfig().set("mysql.port", 3306);
             this.getConfig().set("mysql.database", "essentials");
