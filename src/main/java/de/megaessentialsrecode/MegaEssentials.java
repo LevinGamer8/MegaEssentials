@@ -141,6 +141,7 @@ public final class MegaEssentials extends JavaPlugin{
             getCommand("battlepass").setExecutor(new battlepass());
         }
         getCommand("player").setExecutor(new info());
+        getCommand("chatclear").setExecutor(new cc());
         if (this.getConfig().getBoolean("spawn.enabled")) {
             getCommand("spawn").setExecutor(new spawn());
             getCommand("setspawn").setExecutor(new setSpawn(this));

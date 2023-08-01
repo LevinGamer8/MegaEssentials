@@ -125,7 +125,7 @@ public class eco implements CommandExecutor, TabCompleter {
                 sender.sendMessage(MegaEssentials.Prefix + "§6Du hast §b" + target.getName() + " 's §6Kontostand zurückgesetzt");
             }
         } else {
-            sender.sendMessage(MegaEssentials.Prefix + "§4Nutze: /eco <give/remove/set/reset> <Spieler> <Betrag>");
+            sender.sendMessage(MegaEssentials.Prefix + "§4Nutze: §b/eco <give/remove/set/reset> <Spieler> <Betrag>");
         }
 
         return true;
