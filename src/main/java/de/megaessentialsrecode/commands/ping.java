@@ -1,6 +1,7 @@
 package de.megaessentialsrecode.commands;
 
 import de.megaessentialsrecode.MegaEssentials;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,6 +29,16 @@ public class ping implements CommandExecutor {
 
         if (args.length == 0) {
             int ping = p.getPing();
+            p.sendTitle("§bPing", "§aDein §bPing §7ist §b" + ping + "§7ms");
+        } else {
+            if (p.hasPermission("megacraft.command.ping.others")) {
+                Player target = Bukkit.getPlayer(args[0]);
+                if (target == null) {
+                    p.sendMessage(MegaEssentials.Prefix + "§4Der Spieler §6" + target.getName() + " §4existiert nicht!");
+                }
+                int ping = target.getPing();
+                p.sendTitle("§bPing", "§6" + target.getName() + "§7's §bPing §7ist §b" + ping + "§7ms");
+            }
         }
 
 
