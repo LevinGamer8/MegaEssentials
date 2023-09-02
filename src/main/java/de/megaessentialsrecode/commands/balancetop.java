@@ -1,8 +1,8 @@
 package de.megaessentialsrecode.commands;
 
 import de.megaessentialsrecode.MegaEssentials;
-import de.megaessentialsrecode.utils.DataBase;
 import de.megaessentialsrecode.utils.EconomyProvider;
+import de.megaessentialsrecode.utils.PlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -15,11 +15,7 @@ import java.util.*;
 
 public class balancetop implements CommandExecutor {
     private final EconomyProvider economyProvider = MegaEssentials.getEconomyProvider();
-    private final DataBase dataBase;
 
-    public balancetop(DataBase dataBase) {
-        this.dataBase = dataBase;
-    }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
@@ -35,12 +31,14 @@ public class balancetop implements CommandExecutor {
             p.sendMessage(MegaEssentials.Prefix + "§4Nutzung§7: §b/balancetop");
             return true;
         }
-        List<String> registeredPlayers = DataBase.getAllRegisteredPlayers();
+        PlayerData pd = new PlayerData("");
+        List<String> registeredPlayers = pd.getAllRegisteredPlayers();
         Map<String, Double> balances = new HashMap<>();
 
         for (String playerUUID : registeredPlayers) {
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(playerUUID));
-            double balance = DataBase.getEconomy(offlinePlayer);
+            PlayerData pd1 = new PlayerData(offlinePlayer.getName());
+            double balance = pd.getEconomy();
 
             balances.put(offlinePlayer.getName(), balance);
         }
@@ -48,20 +46,19 @@ public class balancetop implements CommandExecutor {
         sortedBalances.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
 
         int count = 0;
-        p.sendMessage(MegaEssentials.Prefix + "§6Top §b10 §aKontostände:");
+        p.sendMessage("§8-------------------------------");
+        p.sendMessage("\n" + MegaEssentials.Prefix + "§6Top §b10 §aKontostände§7:");
 
         for (Map.Entry<String, Double> entry : sortedBalances) {
             String playerName = entry.getKey();
             double balance = entry.getValue();
-
             p.sendMessage(MegaEssentials.Prefix + "§6" + playerName + "§7: §a" + economyProvider.format(balance) + " §b€");
-
             count++;
             if (count >= 10) {
                 break;
             }
+            p.sendMessage("\n§8-------------------------------");
         }
-
         return true;
     }
 }

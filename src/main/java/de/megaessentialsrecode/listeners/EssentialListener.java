@@ -1,17 +1,19 @@
 package de.megaessentialsrecode.listeners;
 
 import de.megaessentialsrecode.MegaEssentials;
-import de.megaessentialsrecode.utils.DataBase;
 import de.megaessentialsrecode.utils.Locations;
+import de.megaessentialsrecode.utils.PlayerData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerCommandSendEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.TabCompleteEvent;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class EssentialListener implements org.bukkit.event.Listener {
@@ -20,9 +22,9 @@ public class EssentialListener implements org.bukkit.event.Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
-        if (!(DataBase.exist(p))) {
-            DataBase.setup(p);
-        }
+        PlayerData pd = new PlayerData(p.getName());
+        pd.createPlayer(p.getName());
+
         e.setJoinMessage("");
         if (MegaEssentials.getInstance().getConfig().getBoolean("spawn.enabled")) {
             Locations.teleportToSpawn(p);
@@ -42,7 +44,8 @@ public class EssentialListener implements org.bukkit.event.Listener {
 
     @EventHandler
     public void onCommand(final PlayerCommandPreprocessEvent e) {
-        if (e.getMessage().startsWith("/") && e.getMessage().contains(":")) {
+        String[] args = e.getMessage().split(" ");
+        if (args[0].startsWith("/") && args[0].contains(":")) {
             e.setCancelled(true);
             e.getPlayer().sendMessage(MegaEssentials.Prefix + "§4Dieser Command wurde nicht gefunden!");
         }
@@ -61,19 +64,32 @@ public class EssentialListener implements org.bukkit.event.Listener {
     @EventHandler
     public void onTabComplete(TabCompleteEvent e) {
        if (e.getSender() instanceof Player) {
-           Player p = (Player) e.getSender();
-           String[] args = e.getBuffer().split(" ");
-           String command = args[0].toLowerCase();
-           final List<String> blockedCommands = MegaEssentials.getInstance().getConfig().getStringList("blocked_commands");
-           if (blockedCommands.contains(command)) {
-               e.setCancelled(true);
-               return;
-           }
+
 
            List<String> completions = new ArrayList<>(e.getCompletions());
            completions.removeIf(completion -> completion.startsWith("plugin"));
            e.setCompletions(completions);
        }
+    }
+
+    @EventHandler
+    public void onList(PlayerCommandSendEvent event) {
+        if (!event.getPlayer().hasPermission("megacraft.blockedcommands.bypass")) {
+                Iterator<String> it = event.getCommands().iterator();
+                String str;
+
+                while (it.hasNext()) {
+                    str = (String) it.next();
+                    if (str.contains(":")) {
+                        it.remove();
+                    }
+                }
+
+                for (int i = 0; i < MegaEssentials.getInstance().getConfig().getStringList("blocked_commands").size(); i++) {
+                    if (!event.getPlayer().hasPermission("megacraft.blockedcommands.bypass"))
+                        event.getCommands().remove(MegaEssentials.getInstance().getConfig().getStringList("blocked_commands").get(i));
+                }
+        }
     }
 
 }

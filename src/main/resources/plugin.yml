@@ -3,10 +3,11 @@ version: '1.0'
 main: de.megaessentialsrecode.MegaEssentials
 api-version: 1.19
 load: STARTUP
-loadbefore:
-  - FWSystem
 depend:
   - Vault
+  - PlaceholderAPI
+softdepend:
+  - LuckPerms
 author: LevinGamer8
 description: just another essentials Plugin
 commands:
@@ -59,6 +60,9 @@ commands:
   battlepass:
   player:
     permission: megacraft.command.player
+  install:
+    permission: megacraft.command.install
   chatclear:
     permission: megacraft.command.chatclear
     aliases: cc
+  ping:

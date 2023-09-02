@@ -2,6 +2,7 @@ package de.megaessentialsrecode.commands;
 
 import de.megaessentialsrecode.MegaEssentials;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,8 +29,12 @@ public class ping implements CommandExecutor {
         }
 
         if (args.length == 0) {
-            int ping = p.getPing();
-            p.sendTitle("§bPing", "§aDein §bPing §7ist §b" + ping + "§7ms");
+            int delayTicks = 0;
+                sendTitleWithDelay(p, "§bPing §a1§7/§a3", "§aDein §bPing §7ist §b" + p.getPing() + "§7ms", delayTicks);
+                delayTicks += 40;
+                sendTitleWithDelay(p, "§bPing §a2§7/§a3", "§aDein §bPing §7ist §b" + p.getPing() + "§7ms", delayTicks);
+                delayTicks += 40;
+                sendTitleWithDelay(p, "§bPing §a3§7/§a3", "§aDein §bPing §7ist §b" + p.getPing() + "§7ms", delayTicks);
         } else {
             if (p.hasPermission("megacraft.command.ping.others")) {
                 Player target = Bukkit.getPlayer(args[0]);
@@ -42,6 +47,17 @@ public class ping implements CommandExecutor {
         }
 
 
+
+
         return false;
     }
+
+
+    public static void sendTitleWithDelay(Player player, String title, String subtitle, int delayTicks) {
+        Bukkit.getScheduler().runTaskLater(MegaEssentials.getInstance(), () -> {
+            player.sendTitle(ChatColor.translateAlternateColorCodes('&', title),
+                    ChatColor.translateAlternateColorCodes('&', subtitle), 10, 70, 20);
+        }, delayTicks);
+    }
+
 }

@@ -40,7 +40,7 @@ public class heal implements CommandExecutor, TabCompleter {
                 if (p.getHealth() == 20) {
                     p.sendMessage(MegaEssentials.Prefix + "§4Du bist schon voll §ageheilt");
                 } else {
-                    p.setHealth(20);
+                    p.setHealth(p.getMaxHealth());
                     p.setFoodLevel(20);
                 p.sendMessage(MegaEssentials.Prefix + "§aDu wurdest geheilt und dein Hunger wurde gestillt.");
             }
@@ -49,7 +49,8 @@ public class heal implements CommandExecutor, TabCompleter {
                 if (target == null) {
                     p.sendMessage(MegaEssentials.Prefix + "Der Spieler ist nicht auf " + MegaEssentials.getPluginName() + " online.");
                 } else {
-                    target.setHealth(20);
+                    target.setHealth(p.getMaxHealth());
+                    target.setFoodLevel(20);
                     p.sendMessage(MegaEssentials.Prefix + "§b" + target.getName() + " §awurde geheilt.");
                     target.sendMessage(MegaEssentials.Prefix + "§aDu wurdest von §b" + p.getName() + " §ageheilt.");
                 }

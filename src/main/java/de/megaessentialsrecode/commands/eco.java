@@ -1,8 +1,8 @@
 package de.megaessentialsrecode.commands;
 
 import de.megaessentialsrecode.MegaEssentials;
-import de.megaessentialsrecode.utils.DataBase;
 import de.megaessentialsrecode.utils.EconomyProvider;
+import de.megaessentialsrecode.utils.PlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -28,32 +28,34 @@ public class eco implements CommandExecutor, TabCompleter {
         }
 
         if (!(args.length >= 2)) {
-            sender.sendMessage(MegaEssentials.Prefix + "§4Nutze: /eco [give/remove/set/reset] [Spieler] <Betrag>");
+            sender.sendMessage(MegaEssentials.Prefix + "§4Nutze: /eco [give/remove/set/reset] [Spieler] [Betrag]");
             return true;
         }
 
         if (args[0].equalsIgnoreCase("give")) {
-            Double amount = Double.valueOf(args[2]);
             if (!(isNumeric(args[2]))) {
                 sender.sendMessage(MegaEssentials.Prefix + "§4Bitte gebe eine gültige Zahl ein");
                 return true;
             }
+            Double amount = Double.valueOf(args[2]);
             OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
             if (target.isOnline()) {
                 Player target1 = Bukkit.getPlayer(args[1]);
-                if (!(DataBase.exist(target))) {
+                PlayerData targetPD = new PlayerData(target1.getName());
+                if (!(targetPD.exists())) {
                     sender.sendMessage(MegaEssentials.Prefix + "§4Der Spieler §6" + target.getName() + " §4existiert nicht!");
                     return true;
                 }
-                DataBase.addEconomy(target, amount);
+                targetPD.addEconomy(amount);
                 sender.sendMessage(MegaEssentials.Prefix + "§6Du §bhast " + target.getName() + "§6 " + this.economyProvider.format(amount) + " §b€ §agegeben");
                 target1.sendMessage(MegaEssentials.Prefix + "§bDir wurden §6" + this.economyProvider.format(amount) + " §b€ §agegeben");
             } else {
-                if (!(DataBase.exist(target))) {
+                PlayerData targetPD = new PlayerData(target.getName());
+                if (!(targetPD.exists())) {
                     sender.sendMessage(MegaEssentials.Prefix + "§4Der Spieler §6" + target.getName() + " §4existiert nicht!");
                     return true;
                 }
-                DataBase.addEconomy(target, amount);
+                targetPD.addEconomy(amount);
                 sender.sendMessage(MegaEssentials.Prefix + "§6Du §bhast " + target.getName() + "§6 " + this.economyProvider.format(amount) + " §b€ §agegeben");
             }
 
@@ -64,21 +66,22 @@ public class eco implements CommandExecutor, TabCompleter {
                 return true;
             }
             OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
+            PlayerData targetPD = new PlayerData(target.getName());
             if (target.isOnline()) {
                 Player target1 = Bukkit.getPlayer(args[1]);
-                if (!(DataBase.exist(target))) {
+                if (!(targetPD.exists())) {
                     sender.sendMessage(MegaEssentials.Prefix + "§4Der Spieler §6" + target.getName() + " §4existiert nicht!");
                     return true;
                 }
-                DataBase.removeEconomy(target, amount);
+                targetPD.removeEconomy(amount);
                 sender.sendMessage(MegaEssentials.Prefix + "§6Du §bhast " + target.getName() + "§6 " + this.economyProvider.format(amount) + " §b€ §cabgezogen");
                 target1.sendMessage(MegaEssentials.Prefix + "§bDir wurden §6" + this.economyProvider.format(amount) + " §b€ §cabgezogen");
             } else {
-                if (!(DataBase.exist(target))) {
+                if (!(targetPD.exists())) {
                     sender.sendMessage(MegaEssentials.Prefix + "§4Der Spieler §6" + target.getName() + " §4existiert nicht!");
                     return true;
                 }
-                DataBase.removeEconomy(target, amount);
+                targetPD.removeEconomy(amount);
                 sender.sendMessage(MegaEssentials.Prefix + "§6Du §bhast " + target.getName() + "§6 " + this.economyProvider.format(amount) + " §b€ §cabgezogen");
             }
         } else if (args[0].equalsIgnoreCase("set")) {
@@ -88,40 +91,42 @@ public class eco implements CommandExecutor, TabCompleter {
                 return true;
             }
             OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
+            PlayerData targetPD = new PlayerData(target.getName());
             if (target.isOnline()) {
                 Player target1 = Bukkit.getPlayer(args[1]);
-                if (!(DataBase.exist(target))) {
+                if (!(targetPD.exists())) {
                     sender.sendMessage(MegaEssentials.Prefix + "§4Der Spieler §6" + target.getName() + " §4existiert nicht!");
                     return true;
                 }
-                DataBase.setEconomy(target, amount);
+                targetPD.setEconomy(amount);
                 sender.sendMessage(MegaEssentials.Prefix + "§6Du hast §b" + target.getName() + " 's §6Kontostand §bauf §6 " + this.economyProvider.format(amount) + " §b€ gesetzt");
                 target1.sendMessage(MegaEssentials.Prefix + "§6Dein Kontostand §bwude auf §6" + this.economyProvider.format(amount) + " §b€ gesetzt");
             } else {
-                if (!(DataBase.exist(target))) {
+                if (!(targetPD.exists())) {
                     sender.sendMessage(MegaEssentials.Prefix + "§4Der Spieler §6" + target.getName() + " §4existiert nicht!");
                     return true;
                 }
-                DataBase.setEconomy(target, amount);
+                targetPD.setEconomy(amount);
                 sender.sendMessage(MegaEssentials.Prefix + "§6Du hast §b" + target.getName() + " 's §6Kontostand §bauf §6 " + this.economyProvider.format(amount) + " §b€ gesetzt");
             }
         } else if (args[0].equalsIgnoreCase("reset")) {
             OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
+            PlayerData targetPD = new PlayerData(target.getName());
             if (target.isOnline()) {
                 Player target1 = Bukkit.getPlayer(args[1]);
-                if (!(DataBase.exist(target))) {
+                if (!(targetPD.exists())) {
                     sender.sendMessage(MegaEssentials.Prefix + "§4Der Spieler §6" + target.getName() + " §4existiert nicht!");
                     return true;
                 }
-                DataBase.resetEconomy(Bukkit.getPlayer(args[1]));
+                targetPD.resetEconomy();
                 sender.sendMessage(MegaEssentials.Prefix + "§6Du hast §b" + target.getName() + " 's §6Kontostand zurückgesetzt");
                 target1.sendMessage(MegaEssentials.Prefix + "§6Dein Kontostand §bwurde zurückgesetzt");
             } else {
-                if (!(DataBase.exist(target))) {
+                if (!(targetPD.exists())) {
                     sender.sendMessage(MegaEssentials.Prefix + "§4Der Spieler §6" + target.getName() + " §4existiert nicht!");
                     return true;
                 }
-                DataBase.resetEconomy(Bukkit.getPlayer(args[1]));
+                targetPD.resetEconomy();
                 sender.sendMessage(MegaEssentials.Prefix + "§6Du hast §b" + target.getName() + " 's §6Kontostand zurückgesetzt");
             }
         } else {

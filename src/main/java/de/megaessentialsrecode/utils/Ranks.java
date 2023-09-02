@@ -15,7 +15,8 @@ public class Ranks {
     public static String Supporterprefix = "§x§f§e§f§c§2§2S§x§d§2§d§0§2§eu§x§a§5§a§4§3§9p §8| ";
     public static String Partnerprefix = "§x§f§b§b§7§1§fP§x§f§7§c§0§2§0a§x§f§4§c§a§2§1r§x§f§0§d§3§2§2t§x§e§c§d§c§2§3n§x§e§9§e§6§2§4e§x§e§5§e§f§2§5r";
     public static String Tteamprefix = "§x§0§b§3§9§f§eT§x§1§1§3§6§f§1-§x§1§6§3§2§e§4T§x§1§c§2§f§d§8e§x§2§1§2§b§c§ba§x§2§7§2§8§b§em §8| ";
-    public static String Megaprefix = "§x§f§e§9§e§2§0P§x§f§2§9§b§2§2r§x§e§5§9§7§2§4e§x§d§9§9§4§2§6m§x§c§d§9§1§2§8i§x§c§0§8§d§2§au§x§b§4§8§a§2§cm §8| ";
+    public static String Megaprefix = "§x§7§7§e§7§d§aM§x§5§a§d§1§c§4E§x§3§d§b§b§a§fG§x§2§0§a§5§9§9A §8| ";
+    public static String Premiumprefix = "§x§d§d§a§d§4§3P§x§c§a§a§0§4§0r§x§b§8§9§2§3§ce§x§a§5§8§5§3§9m§x§9§2§7§8§3§6i§x§8§0§6§a§3§2u§x§6§d§5§d§2§fm §8| ";
     public static String Spielerprefix = "§x§1§d§f§e§1§fS§x§1§d§f§2§2§5p§x§1§d§e§5§2§bi§x§1§d§d§9§3§1e§x§1§c§c§d§3§6l§x§1§c§c§0§3§ce§x§1§c§b§4§4§2r §8| ";
 
 

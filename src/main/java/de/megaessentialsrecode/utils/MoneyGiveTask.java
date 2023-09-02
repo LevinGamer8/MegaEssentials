@@ -14,7 +14,8 @@ public class MoneyGiveTask extends BukkitRunnable {
         for (Player player : Bukkit.getOnlinePlayers()) {
             double currentBalance = economyProvider.getBalance(player);
             double newBalance = currentBalance + 100;
-            DataBase.setEconomy(player, newBalance);
+            PlayerData pd = new PlayerData(player.getName());
+            pd.setEconomy(newBalance);
             player.sendMessage(MegaEssentials.Prefix + "§6Du hast §a100 §b€ §6für deine §bSpielzeit §6erhalten.");
         }
     }

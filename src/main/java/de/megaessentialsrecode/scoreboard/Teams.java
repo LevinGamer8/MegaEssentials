@@ -21,6 +21,7 @@ public class Teams {
         registerTeam(scoreboard, "0006Partner", Ranks.Partnerprefix, ChatColor.GRAY);
         registerTeam(scoreboard, "0007T-Team", Ranks.Tteamprefix, ChatColor.GRAY);
         registerTeam(scoreboard, "0008MEGA", Ranks.Megaprefix, ChatColor.GRAY);
+        registerTeam(scoreboard, "0009Premium", Ranks.Premiumprefix, ChatColor.GRAY);
         registerTeam(scoreboard, "0099Spieler", Ranks.Spielerprefix, ChatColor.GRAY);
     }
 
@@ -73,6 +74,12 @@ public class Teams {
                     break;
                 case "mega":
                     team = "0008MEGA";
+                    if (!scoreboard.getTeam(team).hasEntry(player.getName())) {
+                        scoreboard.getTeam(team).addEntry(player.getName());
+                    }
+                    break;
+                case "premium":
+                    team = "0009Premium";
                     if (!scoreboard.getTeam(team).hasEntry(player.getName())) {
                         scoreboard.getTeam(team).addEntry(player.getName());
                     }

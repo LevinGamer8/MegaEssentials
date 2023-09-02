@@ -1,8 +1,8 @@
 package de.megaessentialsrecode.commands;
 
 import de.megaessentialsrecode.MegaEssentials;
-import de.megaessentialsrecode.utils.DataBase;
 import de.megaessentialsrecode.utils.EconomyProvider;
+import de.megaessentialsrecode.utils.PlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -13,17 +13,14 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
 public class balance implements CommandExecutor, TabCompleter {
 
     private final EconomyProvider economyProvider = MegaEssentials.getEconomyProvider();
-    private final DataBase dataBase;
 
-    public balance(DataBase dataBase) {
-        this.dataBase = dataBase;
-    }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -39,13 +36,13 @@ public class balance implements CommandExecutor, TabCompleter {
             sender.sendMessage(MegaEssentials.Prefix + "§4Nutze: /balance §b<Spieler>");
             return true;
         }
-
+        PlayerData pd = new PlayerData(player.getName());
         if (args.length == 0) {
-            player.sendMessage(MegaEssentials.Prefix + "§bDein §6Bargeld§7:§a " + this.economyProvider.format(this.dataBase.getEconomy(player)) + " §b" + this.economyProvider.currencyNameSingular());
+            player.sendMessage(MegaEssentials.Prefix + "§bDein §6Bargeld§7:§a " + this.economyProvider.format(pd.getMoney()) + " §b" + this.economyProvider.currencyNameSingular());
         } else if (args.length == 1 ) {
             if (player.hasPermission("megacraft.command.balance.others")) {
                 OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
-                player.sendMessage(MegaEssentials.Prefix + "§b" + target.getName() + "'s §6Bargeld§7:§a " + (this.economyProvider.format(this.dataBase.getEconomy(target)) + " §b" + this.economyProvider.currencyNameSingular()));
+                player.sendMessage(MegaEssentials.Prefix + "§b" + target.getName() + "'s §6Bargeld§7:§a " + (this.economyProvider.format(pd.getMoney()) + " §b" + this.economyProvider.currencyNameSingular()));
             }
         }
         return true;

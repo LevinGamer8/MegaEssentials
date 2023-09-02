@@ -1,8 +1,8 @@
 package de.megaessentialsrecode.commands;
 
 import de.megaessentialsrecode.MegaEssentials;
-import de.megaessentialsrecode.utils.DataBase;
 import de.megaessentialsrecode.utils.EconomyProvider;
+import de.megaessentialsrecode.utils.PlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -36,13 +36,13 @@ public class pay implements CommandExecutor, TabCompleter {
                 return true;
             }
             double amount = Double.parseDouble(args[1]);
-            double economy = DataBase.getEconomy(p);
+            PlayerData pd = new PlayerData(Bukkit.getPlayer(args[0]).getName());
+            double economy = pd.getEconomy();
             int numPlayers = 0;
             double totalAmount;
-            List<String> registeredPlayers = DataBase.getAllRegisteredPlayers();
+            List<String> registeredPlayers = pd.getAllRegisteredPlayers();
             for (String playerUUID : registeredPlayers) {
                 OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(playerUUID));
-                if (DataBase.exist(offlinePlayer)) {
                     if (!offlinePlayer.getUniqueId().equals(p.getUniqueId())) {
                         if (!(isNumeric(args[1]))) {
                             sender.sendMessage(MegaEssentials.Prefix + "§4Bitte gebe eine gültige Zahl ein.");
@@ -53,19 +53,18 @@ public class pay implements CommandExecutor, TabCompleter {
                             p.sendMessage(MegaEssentials.Prefix + "§cDir fehlen §e" + this.economyProvider.format(amount * numPlayers - economy) + " §b" + economyProvider.currencyNameSingular());
                             return true;
                         }
-                        DataBase.addEconomy(offlinePlayer, amount);
+                        pd.addEconomy(amount);
                         if (offlinePlayer.isOnline()) {
                             Player target = Bukkit.getPlayer(offlinePlayer.getName());
                             target.sendMessage(MegaEssentials.Prefix + "§6" + p.getName() + " §bhat dir §6" + this.economyProvider.format(amount) + " §b" + this.economyProvider.currencyNameSingular() + " §agegeben.");
                         }
                         numPlayers++;
                     }
-                }
             }
             totalAmount = amount * numPlayers;
 
             if (numPlayers > 0) {
-                DataBase.removeEconomy(p, totalAmount);
+                pd.removeEconomy(totalAmount);
                 p.sendMessage(MegaEssentials.Prefix + "§6" + numPlayers + " §bSpieler haben jeweils §6" + this.economyProvider.format(amount) + " §b" + this.economyProvider.currencyNameSingular() + " §aerhalten.");
             } else {
                 p.sendMessage(MegaEssentials.Prefix + "§4Es gibt keine Spieler in der Datenbank, an die du Geld senden kannst.");
@@ -77,7 +76,8 @@ public class pay implements CommandExecutor, TabCompleter {
             return true;
         }
         double amount = Double.parseDouble(args[1]);
-        double economy = DataBase.getEconomy(p);
+        PlayerData pd = new PlayerData(p.getName());
+        double economy = pd.getEconomy();
         int missing = (int) (amount - economy);
         Double amount1 = Double.valueOf(args[1]);
         if (!economyProvider.has(p, amount)) {
@@ -100,13 +100,15 @@ public class pay implements CommandExecutor, TabCompleter {
                 p.sendMessage(MegaEssentials.Prefix + "§4Du kannst dir nicht selbst Geld geben!");
                 return true;
             }
-            DataBase.removeEconomy(p, Double.parseDouble(args[1]));
-            DataBase.addEconomy(target1, Double.parseDouble(args[1]));
+            pd.removeEconomy(Double.parseDouble(args[1]));
+            PlayerData pd2 = new PlayerData(target1.getName());
+            pd2.addEconomy(Double.parseDouble(args[1]));
             target1.sendMessage(MegaEssentials.Prefix + "§6" + p.getName() + " §bhat dir §6" + this.economyProvider.format(amount1) + " §b" + this.economyProvider.currencyNameSingular() + " §agegeben.");
             p.sendMessage(MegaEssentials.Prefix + "§6Du §bhast " + target1.getName() + "§6 " + this.economyProvider.format(amount1) + " §b" + this.economyProvider.currencyNameSingular() + " §agegeben");
             return true;
         } else {
-            if (!(DataBase.exist(target))) {
+            PlayerData pd2 = new PlayerData(target.getName());
+            if (!(pd2.exists())) {
                 sender.sendMessage(MegaEssentials.Prefix + "§4Der Spieler §6" + target.getName() + " §4existiert nicht!");
                 return true;
             }
@@ -114,8 +116,8 @@ public class pay implements CommandExecutor, TabCompleter {
                 sender.sendMessage(MegaEssentials.Prefix + "§4Bitte gebe eine gültige Zahl ein.");
                 return true;
             }
-            DataBase.removeEconomy(p, Double.parseDouble(args[1]));
-            DataBase.addEconomy(target, Double.parseDouble(args[1]));
+            pd.removeEconomy(Double.parseDouble(args[1]));
+            pd2.addEconomy(Double.parseDouble(args[1]));
             p.sendMessage(MegaEssentials.Prefix + "§6Du §bhast " + target.getName() + "§6 " + this.economyProvider.format(amount1) + " §b" + this.economyProvider.currencyNameSingular() + " §agegeben");
             return true;
         }

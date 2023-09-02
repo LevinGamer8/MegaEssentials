@@ -29,7 +29,7 @@ public class Locations {
             spawnLocation.setYaw(yaw);
             p.teleport(spawnLocation);
         } else {
-            MegaEssentials.logger.log(Level.WARNING, "Die angegebene World wurde nicht gefunden");
+            MegaEssentials.logger().log(Level.WARNING, "Die angegebene World wurde nicht gefunden");
         }
     }
 }

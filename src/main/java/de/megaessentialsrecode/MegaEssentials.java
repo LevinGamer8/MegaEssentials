@@ -13,40 +13,54 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import javax.sql.DataSource;
 import java.io.File;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
 public final class MegaEssentials extends JavaPlugin{
 
-    private DataBase dataBase;
-    public static Plugin instance;
-    public static Logger logger;
+    private DataSource dataSource;
+    private static MegaEssentials instance;
+    public static Logger logger() {
+        return instance.getLogger();
+    }
     private static EconomyProvider economyProvider;
     public static String name;
     public static String Prefix;
     public final static String noPerms = "§4Dazu hast du keine Rechte!";
+    public ExecutorService EXECUTOR_SERVICE = Executors.newSingleThreadExecutor();
 
     @Override
     public void onEnable() {
         instance = this;
+        loadConfig();
         name = this.getConfig().getString("plugin.name");
         if (Prefix != null) {
             Prefix = this.getConfig().getString("plugin.prefix").replace("&", "§");
         } else {
             Prefix = "§3MegaCraft§7: §r";
         }
-        logger = getLogger();
-        loadConfig();
+
+        ConnectionPoolFactory connectionPool = new ConnectionPoolFactory(this.getConfig());
+        try {
+            dataSource = connectionPool.getPluginDataSource(this);
+        } catch (SQLException e) {
+            logger().log(Level.SEVERE, "Datenbankverbindung fehlgeschlagen", e);
+            Bukkit.getPluginManager().disablePlugins();
+            onDisable();
+            return;
+        }
         dependencyCheck();
-        initMysql();
-        createTables();
+        initMySQL();
         registerCommands();
         registerListeners();
-        checkPlayerOnlineTime();
     }
 
 
@@ -54,7 +68,7 @@ public final class MegaEssentials extends JavaPlugin{
         if (this.getConfig().getBoolean("economy.enabled")) {
             if (getServer().getPluginManager().getPlugin("Vault") == null) {
                 getServer().getPluginManager().disablePlugin(this);
-                logger.log(Level.INFO, "Du musst Vault installieren");
+                logger().log(Level.INFO, "Du musst Vault installieren");
             } else {
                 economyProvider = new EconomyProvider(this);
                 getServer().getServicesManager().register(Economy.class, economyProvider, this, ServicePriority.Normal);
@@ -62,10 +76,10 @@ public final class MegaEssentials extends JavaPlugin{
         }
         if (getServer().getPluginManager().getPlugin("PlaceholderAPI") == null) {
             getServer().getPluginManager().disablePlugin(this);
-            logger.log(Level.WARNING, "Du musst 'PlaceholderAPI' installieren");
+            logger().log(Level.WARNING, "Du musst PlaceholderAPI installieren");
         } else {
             new PlaceholderProvider().register();
-            logger.log(Level.INFO, "Hooked in 'PlaceholderAPI'");
+            logger().log(Level.INFO, "Hooked in 'PlaceholderAPI'");
         }
     }
 
@@ -90,22 +104,17 @@ public final class MegaEssentials extends JavaPlugin{
         String subchannel = in.readUTF();
     }
 
-    private void initMysql() {
-        MySQLConnection con = new MySQLConnection( this.getConfig().getString("mysql.host"), this.getConfig().getInt("mysql.port"), this.getConfig().getString("mysql.database"), this.getConfig().getString("mysql.username"), this.getConfig().getString("mysql.password"));
-        con.connect();
-        dataBase = new DataBase(this);
-    }
+    public void initMySQL() {
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement("CREATE TABLE IF NOT EXISTS playerdata (Name VARCHAR(64) NOT NULL, money DOUBLE)");
+        ) {
+            ps.executeUpdate();
 
-
-    private void createTables() {
-        try (PreparedStatement statement = MySQLConnection.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS player_money (uuid VARCHAR(36) PRIMARY KEY, name VARCHAR(100), money DOUBLE)"))  {
-            statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger().log(Level.SEVERE, "Keine Verbindung zur Datenbank!", e);
         }
-
-
     }
+
 
 
     public void registerCommands() {
@@ -115,9 +124,9 @@ public final class MegaEssentials extends JavaPlugin{
         getCommand("feed").setExecutor(new feed());
         getCommand("navi").setExecutor(new navigator());
         if (this.getConfig().getBoolean("economy.enabled")) {
-            getCommand("balance").setExecutor(new balance(dataBase));
-            getCommand("balancetop").setExecutor(new balancetop(dataBase));
-            getCommand("money").setExecutor(new balance(dataBase));
+            getCommand("balance").setExecutor(new balance());
+            getCommand("balancetop").setExecutor(new balancetop());
+            getCommand("money").setExecutor(new balance());
             getCommand("pay").setExecutor(new pay());
             getCommand("eco").setExecutor(new eco());
         }
@@ -137,6 +146,8 @@ public final class MegaEssentials extends JavaPlugin{
         getCommand("tp").setExecutor(new tp());
         getCommand("tphere").setExecutor(new tphere());
         getCommand("repair").setExecutor(new repair());
+        getCommand("ping").setExecutor(new ping());
+        getCommand("chatclear").setExecutor(new cc());
         if (this.getConfig().getBoolean("battlepass.enabled")) {
             getCommand("battlepass").setExecutor(new battlepass());
         }
@@ -156,7 +167,7 @@ public final class MegaEssentials extends JavaPlugin{
         if (this.getConfig().getBoolean("battlepass.enabled")) {
             Bukkit.getPluginManager().registerEvents(new BattlePassListener(this), this);
         }
-        if (!(Bukkit.getPluginManager().getPlugin("LuckPerms") == null)) {
+        if (Bukkit.getPluginManager().getPlugin("LuckPerms") != null && this.getConfig().getBoolean("rankprefix.enabled")) {
             Bukkit.getPluginManager().registerEvents(new RankListener(), this);
         }
         Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
@@ -170,10 +181,10 @@ public final class MegaEssentials extends JavaPlugin{
         }
         File configFile = new File(getDataFolder(), "config.yml");
         if (!configFile.exists()) {
-            saveResource("config.yml", false);
+            saveResource("config.yml", true);
         }
         this.saveDefaultConfig();
-        if (!this.getConfig().contains("mysql.host") && this.getConfig().contains("spawn.world")) {
+        if (!this.getConfig().contains("mysql.host") && this.getConfig().contains("rankprefix.enabled")) {
             this.getConfig().set("plugin.name", "megaessentials");
             this.getConfig().set("plugin.prefix", "&3MegaCraft&7: &r");
             this.getConfig().set("mysql.host", "localhost");
@@ -187,10 +198,8 @@ public final class MegaEssentials extends JavaPlugin{
             this.getConfig().set("spawn.y", "1");
             this.getConfig().set("spawn.z", "1");
             this.getConfig().set("spawn.world", "world");
-
             this.getConfig().set("battlepass.enabled", "true");
-
-
+            this.getConfig().set("rankprefix.enabled", "true");
             this.saveConfig();
         }
     }
@@ -203,8 +212,12 @@ public final class MegaEssentials extends JavaPlugin{
         p.sendPluginMessage(instance, "BungeeCord", out.toByteArray());
     }
 
-    public static Plugin getInstance() {
+    public static MegaEssentials getInstance() {
         return instance;
+    }
+
+    public DataSource getDataSource() {
+        return dataSource;
     }
 
     public static String getPluginName() {

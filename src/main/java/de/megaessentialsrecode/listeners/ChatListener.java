@@ -1,5 +1,6 @@
 package de.megaessentialsrecode.listeners;
 
+import de.megaessentialsrecode.utils.Ranks;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.cacheddata.CachedMetaData;
@@ -16,9 +17,38 @@ public class ChatListener implements Listener {
         String message = event.getMessage();
         LuckPerms luckPerms = LuckPermsProvider.get();
         String group = luckPerms.getUserManager().getUser(event.getPlayer().getUniqueId()).getPrimaryGroup();
-        CachedMetaData metaData = luckPerms.getPlayerAdapter(Player.class).getMetaData(event.getPlayer());
 
-        String playerpref = metaData.getPrefix();
-        event.setFormat(playerpref.replace('&', '§') + "§7 | " +  ChatColor.GRAY + name + " §8-> " + ChatColor.GRAY + message.replace('&', '§'));
+        switch (group) {
+
+            case "owner":
+                event.setFormat(Ranks.Ownerprefix + ChatColor.GRAY + name + " §8-> " + ChatColor.GRAY + message.replace('&', '§'));
+                break;
+            case "admin":
+                event.setFormat(Ranks.Adminprefix +  ChatColor.GRAY + name + " §8-> " + ChatColor.GRAY + message.replace('&', '§'));
+                break;
+            case "moderator":
+                event.setFormat(Ranks.Moderatorprefix + ChatColor.GRAY + name + " §8-> " + ChatColor.GRAY + message.replace('&', '§'));
+                break;
+            case "builder":
+                event.setFormat(Ranks.Builderprefix + ChatColor.GRAY + name + " §8-> " + ChatColor.GRAY + message.replace('&', '§'));
+                break;
+            case "supporter":
+                event.setFormat(Ranks.Supporterprefix + ChatColor.GRAY + name + " §8-> " + ChatColor.GRAY + message.replace('&', '§'));
+                break;
+            case "partner":
+                event.setFormat(Ranks.Partnerprefix + ChatColor.GRAY + name + " §8-> " + ChatColor.GRAY + message.replace('&', '§'));
+                break;
+            case "t-team":
+                event.setFormat(Ranks.Tteamprefix + ChatColor.GRAY + name + " §8-> " + ChatColor.GRAY + message.replace('&', '§'));
+                break;
+            case "mega":
+                event.setFormat(Ranks.Megaprefix + ChatColor.GRAY + name + " §8-> " + ChatColor.GRAY + message.replace('&', '§'));
+                break;
+            case "premium":
+                event.setFormat(Ranks.Premiumprefix + ChatColor.GRAY + name + " §8-> " + ChatColor.GRAY + message.replace('&', '§'));
+                break;
+            case "default":
+                event.setFormat(Ranks.Spielerprefix + ChatColor.GRAY + name + " §8-> " + ChatColor.GRAY + message);
+        }
     }
 }

@@ -40,7 +40,8 @@ public class PlaceholderProvider extends PlaceholderExpansion {
             if (MegaEssentials.getEconomyProvider() == null) {
                 return " ";
             }
-            return this.economyProvider.format(DataBase.getEconomy(player));
+            PlayerData pd = new PlayerData(player.getName());
+            return this.economyProvider.format(pd.getMoney());
         }
         return super.onPlaceholderRequest(player, params);
     }

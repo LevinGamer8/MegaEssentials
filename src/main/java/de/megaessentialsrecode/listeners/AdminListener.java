@@ -1,9 +1,9 @@
 package de.megaessentialsrecode.listeners;
 
 import de.megaessentialsrecode.MegaEssentials;
-import de.megaessentialsrecode.utils.DataBase;
 import de.megaessentialsrecode.utils.EconomyProvider;
 import de.megaessentialsrecode.utils.ItemBuilder;
+import de.megaessentialsrecode.utils.PlayerData;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,6 +20,11 @@ public class AdminListener implements Listener {
     @EventHandler
     public void onInteract(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
+
+        if (e.getView().getTitle() == null) {
+            return;
+        }
+
         if (e.getView().getTitle().equals("§4ADMIN")) {
             e.setCancelled(true);
             if (e.getCurrentItem().getType() == Material.GOLD_INGOT) {
@@ -41,16 +46,16 @@ public class AdminListener implements Listener {
                     p.getWorld().playEffect(p.getLocation().add(0.0D, 0.0D, 0.0D), Effect.BLAZE_SHOOT, 1);
                 p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
                 Double amount = Double.parseDouble("10000");
-                List<String> registeredPlayers = DataBase.getAllRegisteredPlayers();
+                PlayerData pd1 = new PlayerData("");
+                List<String> registeredPlayers = pd1.getAllRegisteredPlayers();
                 for (String playerUUID : registeredPlayers) {
                     OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(playerUUID));
-                    if (DataBase.exist(offlinePlayer)) {
-                        DataBase.addEconomy(offlinePlayer, amount);
+                    PlayerData pd = new PlayerData(offlinePlayer.getName());
+                        pd.addEconomy(amount);
                         if (offlinePlayer.isOnline()) {
                             Player target = Bukkit.getPlayer(offlinePlayer.getName());
                             target.sendMessage(MegaEssentials.Prefix + "§6" + p.getName() + " §bhat dir §6" + this.economyProvider.format(amount) + " §b" + this.economyProvider.currencyNameSingular() + " §agegeben.");
                         }
-                    }
                 }
                 p.sendMessage(MegaEssentials.Prefix + "§6" + registeredPlayers.stream().count() + " §bSpieler haben jeweils §6" + this.economyProvider.format(amount) + " §b" + this.economyProvider.currencyNameSingular() + " §aerhalten.");
             }
