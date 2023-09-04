@@ -50,13 +50,13 @@ public class pay implements CommandExecutor, TabCompleter {
                         }
                         if (!economyProvider.has(p, amount * numPlayers)) {
                             p.sendMessage(MegaEssentials.Prefix + "§6Du §bhast §cnicht genug §aGeld.");
-                            p.sendMessage(MegaEssentials.Prefix + "§cDir fehlen §e" + this.economyProvider.format(amount * numPlayers - economy) + " §b" + economyProvider.currencyNameSingular());
+                            p.sendTitle("§cDir fehlen §e" + this.economyProvider.format(amount * numPlayers - economy) + " §b" + economyProvider.currencyNameSingular(), "");
                             return true;
                         }
                         pd.addEconomy(amount);
                         if (offlinePlayer.isOnline()) {
                             Player target = Bukkit.getPlayer(offlinePlayer.getName());
-                            target.sendMessage(MegaEssentials.Prefix + "§6" + p.getName() + " §bhat dir §6" + this.economyProvider.format(amount) + " §b" + this.economyProvider.currencyNameSingular() + " §agegeben.");
+                            target.sendTitle("§6" + p.getName(), " §bhat dir §6" + this.economyProvider.format(amount) + " §b" + this.economyProvider.currencyNameSingular() + " §agegeben.");
                         }
                         numPlayers++;
                     }
@@ -103,8 +103,8 @@ public class pay implements CommandExecutor, TabCompleter {
             pd.removeEconomy(Double.parseDouble(args[1]));
             PlayerData pd2 = new PlayerData(target1.getName());
             pd2.addEconomy(Double.parseDouble(args[1]));
-            target1.sendMessage(MegaEssentials.Prefix + "§6" + p.getName() + " §bhat dir §6" + this.economyProvider.format(amount1) + " §b" + this.economyProvider.currencyNameSingular() + " §agegeben.");
-            p.sendMessage(MegaEssentials.Prefix + "§6Du §bhast " + target1.getName() + "§6 " + this.economyProvider.format(amount1) + " §b" + this.economyProvider.currencyNameSingular() + " §agegeben");
+            target1.sendTitle("§6" + p.getName(), " §bhat dir §6" + this.economyProvider.format(amount) + " §b" + this.economyProvider.currencyNameSingular() + " §agegeben.");
+            p.sendTitle("§6Du §bhast " + target1.getName(), "§6 " + this.economyProvider.format(amount1) + " §b" + this.economyProvider.currencyNameSingular() + " §agegeben");
             return true;
         } else {
             PlayerData pd2 = new PlayerData(target.getName());
@@ -118,7 +118,7 @@ public class pay implements CommandExecutor, TabCompleter {
             }
             pd.removeEconomy(Double.parseDouble(args[1]));
             pd2.addEconomy(Double.parseDouble(args[1]));
-            p.sendMessage(MegaEssentials.Prefix + "§6Du §bhast " + target.getName() + "§6 " + this.economyProvider.format(amount1) + " §b" + this.economyProvider.currencyNameSingular() + " §agegeben");
+            p.sendTitle("§6Du §bhast " + target.getName(), "§6 " + this.economyProvider.format(amount1) + " §b" + this.economyProvider.currencyNameSingular() + " §agegeben");
             return true;
         }
     }
@@ -136,6 +136,7 @@ public class pay implements CommandExecutor, TabCompleter {
             if (args.length == 1) {
                 completions.addAll(getOnlinePlayerNames());
             } else if (args.length == 2) {
+                completions.add("100000");
                 completions.add("10000");
                 completions.add("1000");
                 completions.add("100");

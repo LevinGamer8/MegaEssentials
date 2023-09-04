@@ -5,11 +5,13 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import de.megaessentialsrecode.commands.*;
 import de.megaessentialsrecode.listeners.*;
-import de.megaessentialsrecode.utils.*;
+import de.megaessentialsrecode.utils.ConnectionPoolFactory;
+import de.megaessentialsrecode.utils.EconomyProvider;
+import de.megaessentialsrecode.utils.MoneyGiveTask;
+import de.megaessentialsrecode.utils.PlaceholderProvider;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -163,7 +165,7 @@ public final class MegaEssentials extends JavaPlugin{
 
     public void registerListeners() {
         Bukkit.getPluginManager().registerEvents(new navi(instance), this);
-        Bukkit.getPluginManager().registerEvents(new EssentialListener(), this);
+        Bukkit.getPluginManager().registerEvents(new EssentialListener(this), this);
         Bukkit.getPluginManager().registerEvents(new AdminListener(), this);
         Bukkit.getPluginManager().registerEvents(new ChatListener(), this);
         if (this.getConfig().getBoolean("battlepass.enabled")) {
