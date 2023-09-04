@@ -48,7 +48,7 @@ public class eco implements CommandExecutor, TabCompleter {
                 }
                 targetPD.addEconomy(amount);
                 sender.sendMessage(MegaEssentials.Prefix + "§6Du §bhast " + target.getName() + "§6 " + this.economyProvider.format(amount) + " §b€ §agegeben");
-                target1.sendMessage(MegaEssentials.Prefix + "§bDir wurden §6" + this.economyProvider.format(amount) + " §b€ §agegeben");
+                target1.sendTitle("§6" + this.economyProvider.format(amount),  "§b€ wurden §6dir §agegeben");
             } else {
                 PlayerData targetPD = new PlayerData(target.getName());
                 if (!(targetPD.exists())) {
@@ -75,7 +75,7 @@ public class eco implements CommandExecutor, TabCompleter {
                 }
                 targetPD.removeEconomy(amount);
                 sender.sendMessage(MegaEssentials.Prefix + "§6Du §bhast " + target.getName() + "§6 " + this.economyProvider.format(amount) + " §b€ §cabgezogen");
-                target1.sendMessage(MegaEssentials.Prefix + "§bDir wurden §6" + this.economyProvider.format(amount) + " §b€ §cabgezogen");
+                target1.sendTitle("§6" + this.economyProvider.format(amount), " §b€ wurden §6 dir §cabgezogen");
             } else {
                 if (!(targetPD.exists())) {
                     sender.sendMessage(MegaEssentials.Prefix + "§4Der Spieler §6" + target.getName() + " §4existiert nicht!");
@@ -120,7 +120,7 @@ public class eco implements CommandExecutor, TabCompleter {
                 }
                 targetPD.resetEconomy();
                 sender.sendMessage(MegaEssentials.Prefix + "§6Du hast §b" + target.getName() + " 's §6Kontostand zurückgesetzt");
-                target1.sendMessage(MegaEssentials.Prefix + "§6Dein Kontostand §bwurde zurückgesetzt");
+                target1.sendTitle(MegaEssentials.Prefix + "§6Dein Kontostand", "§cwurde zurückgesetzt");
             } else {
                 if (!(targetPD.exists())) {
                     sender.sendMessage(MegaEssentials.Prefix + "§4Der Spieler §6" + target.getName() + " §4existiert nicht!");

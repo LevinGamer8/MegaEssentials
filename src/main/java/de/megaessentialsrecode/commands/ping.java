@@ -31,9 +31,9 @@ public class ping implements CommandExecutor {
         if (args.length == 0) {
             int delayTicks = 0;
                 sendTitleWithDelay(p, "§bPing §a1§7/§a3", "§aDein §bPing §7ist §b" + p.getPing() + "§7ms", delayTicks);
-                delayTicks += 40;
+                delayTicks += 60;
                 sendTitleWithDelay(p, "§bPing §a2§7/§a3", "§aDein §bPing §7ist §b" + p.getPing() + "§7ms", delayTicks);
-                delayTicks += 40;
+                delayTicks += 60;
                 sendTitleWithDelay(p, "§bPing §a3§7/§a3", "§aDein §bPing §7ist §b" + p.getPing() + "§7ms", delayTicks);
         } else {
             if (p.hasPermission("megacraft.command.ping.others")) {

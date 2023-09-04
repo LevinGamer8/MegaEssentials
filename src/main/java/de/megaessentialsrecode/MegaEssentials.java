@@ -35,6 +35,7 @@ public final class MegaEssentials extends JavaPlugin{
     public static String name;
     public static String Prefix;
     public final static String noPerms = "§4Dazu hast du keine Rechte!";
+    public static String booster;
     public ExecutorService EXECUTOR_SERVICE = Executors.newSingleThreadExecutor();
 
     @Override
@@ -82,6 +83,7 @@ public final class MegaEssentials extends JavaPlugin{
             logger().log(Level.INFO, "Hooked in 'PlaceholderAPI'");
         }
     }
+
 
 
     private void checkPlayerOnlineTime() {
