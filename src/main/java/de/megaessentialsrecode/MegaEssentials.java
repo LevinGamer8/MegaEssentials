@@ -230,6 +230,7 @@ public final class MegaEssentials extends JavaPlugin{
 
     @Override
     public void onDisable() {
-        MySQLConnection.disconnect();
+        ConnectionPoolFactory connectionPool = new ConnectionPoolFactory(this.getConfig());
+        connectionPool.shutdown();
     }
 }

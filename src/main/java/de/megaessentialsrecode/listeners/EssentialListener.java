@@ -64,8 +64,6 @@ public class EssentialListener implements org.bukkit.event.Listener {
     @EventHandler
     public void onTabComplete(TabCompleteEvent e) {
        if (e.getSender() instanceof Player) {
-
-
            List<String> completions = new ArrayList<>(e.getCompletions());
            completions.removeIf(completion -> completion.startsWith("plugin"));
            e.setCompletions(completions);
@@ -75,16 +73,14 @@ public class EssentialListener implements org.bukkit.event.Listener {
     @EventHandler
     public void onList(PlayerCommandSendEvent event) {
         if (!event.getPlayer().hasPermission("megacraft.blockedcommands.bypass")) {
-                Iterator<String> it = event.getCommands().iterator();
-                String str;
-
+            Iterator<String> it = event.getCommands().iterator();
+            String str;
                 while (it.hasNext()) {
                     str = (String) it.next();
                     if (str.contains(":")) {
                         it.remove();
                     }
                 }
-
                 for (int i = 0; i < MegaEssentials.getInstance().getConfig().getStringList("blocked_commands").size(); i++) {
                     if (!event.getPlayer().hasPermission("megacraft.blockedcommands.bypass"))
                         event.getCommands().remove(MegaEssentials.getInstance().getConfig().getStringList("blocked_commands").get(i));

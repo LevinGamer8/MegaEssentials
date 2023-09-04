@@ -160,9 +160,11 @@ public class eco implements CommandExecutor, TabCompleter {
             } else if (args.length == 2) {
                 completions.addAll(getOnlinePlayerNames());
             } else if (args.length == 3) {
-                completions.add("10000");
-                completions.add("1000");
-                completions.add("100");
+                if (!(args[1].equalsIgnoreCase("reset"))) {
+                    completions.add("10000");
+                    completions.add("1000");
+                    completions.add("100");
+                }
             }
         }
         return completions;
