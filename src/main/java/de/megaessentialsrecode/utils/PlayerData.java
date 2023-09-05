@@ -18,6 +18,7 @@ public class PlayerData {
     private final DataSource source;
     private double money;
 
+    private boolean vanished = false;
 
     public PlayerData(String playerName) {
         this.name = playerName;
@@ -41,6 +42,13 @@ public class PlayerData {
         this.money = money;
     }
 
+    public boolean getVanished() {
+        return vanished;
+    }
+    public void setVanished(boolean vanished) {
+        this.vanished = vanished;
+    }
+
 
     private void loadData() {
         try (Connection conn = source.getConnection();
@@ -49,6 +57,7 @@ public class PlayerData {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 setMoney(rs.getDouble("money"));
+                setVanished(rs.getBoolean("vanish"));
             }
         } catch (SQLException e) {
             MegaEssentials.logger().log(Level.WARNING, "could not load playerdata", e);
@@ -61,9 +70,10 @@ public class PlayerData {
         if (exists()) {
             return;
         }
-        try (Connection conn = source.getConnection(); PreparedStatement ps = conn.prepareStatement("INSERT INTO playerdata (Name,money) VALUES(?,?) ON DUPLICATE KEY UPDATE Name=Name")) {
+        try (Connection conn = source.getConnection(); PreparedStatement ps = conn.prepareStatement("INSERT INTO playerdata (Name,money,vanish) VALUES(?,?,?) ON DUPLICATE KEY UPDATE Name=Name")) {
             ps.setString(1, getName()); // name
             ps.setDouble(2, 10000); // money
+            ps.setBoolean(3, false);
             ps.executeUpdate();
         } catch (SQLException e) {
             MegaEssentials.logger().log(Level.WARNING, "could not create playerdata", e);
@@ -85,14 +95,15 @@ public class PlayerData {
         return false;
     }
 
+
     public double getEconomy() {
         try (Connection conn = source.getConnection();
              PreparedStatement ps = conn.prepareStatement("SELECT money FROM playerdata WHERE Name = ?")) {
             ps.setString(1, this.getName());
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                    return rs.getDouble("money");
-                }
+                return rs.getDouble("money");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -130,6 +141,31 @@ public class PlayerData {
     }
 
 
+    public boolean isVanished() {
+        try (Connection conn = source.getConnection();
+             PreparedStatement ps = conn.prepareStatement("SELECT vanish FROM playerdata WHERE Name = ?")) {
+            ps.setString(1, this.getName());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getBoolean("vanish");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void setVanish(boolean vanish) {
+        try (Connection conn = source.getConnection();
+             PreparedStatement ps = conn.prepareStatement("UPDATE playerdata SET vanish = ? WHERE Name = ?")) {
+            ps.setBoolean(1, vanish);
+            ps.setString(2, this.getName());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public List<String> getAllRegisteredPlayers() {
         List<String> registeredPlayers = new ArrayList<>();
         try (Connection conn = source.getConnection();
@@ -145,8 +181,4 @@ public class PlayerData {
         }
         return registeredPlayers;
     }
-
-
-
-
 }

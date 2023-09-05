@@ -66,3 +66,6 @@ commands:
     permission: megacraft.command.chatclear
     aliases: cc
   ping:
+  vanish:
+    permission: megacraft.command.vanish
+    aliases: v

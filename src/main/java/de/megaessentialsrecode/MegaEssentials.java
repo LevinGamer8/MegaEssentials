@@ -152,6 +152,7 @@ public final class MegaEssentials extends JavaPlugin{
         getCommand("repair").setExecutor(new repair());
         getCommand("ping").setExecutor(new ping());
         getCommand("chatclear").setExecutor(new cc());
+        getCommand("vanish").setExecutor(new vanish(this));
         if (this.getConfig().getBoolean("battlepass.enabled")) {
             getCommand("battlepass").setExecutor(new battlepass());
         }

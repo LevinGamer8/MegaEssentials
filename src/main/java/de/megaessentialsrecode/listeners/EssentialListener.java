@@ -3,6 +3,7 @@ package de.megaessentialsrecode.listeners;
 import de.megaessentialsrecode.MegaEssentials;
 import de.megaessentialsrecode.utils.Locations;
 import de.megaessentialsrecode.utils.PlayerData;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -30,8 +31,23 @@ public class EssentialListener implements org.bukkit.event.Listener {
         PlayerData pd = new PlayerData(p.getName());
         pd.createPlayer(p.getName());
         e.setJoinMessage("");
+        if (pd.getVanished()) {
+            for (Player oplayer : Bukkit.getOnlinePlayers()) {
+                if (!(oplayer.hasPermission("megacraft.command.vanish.see"))) {
+                    oplayer.hidePlayer(plugin, p);
+                }
+            }
+        }
         if (MegaEssentials.getInstance().getConfig().getBoolean("spawn.enabled")) {
             Locations.teleportToSpawn(p);
+        }
+
+        for (Player vanishedplayer : Bukkit.getOnlinePlayers()) {
+            PlayerData vanishedPD = new PlayerData(vanishedplayer.getName());
+            if (vanishedPD.getVanished()) {
+                p.hidePlayer(plugin, vanishedplayer);
+            }
+
         }
     }
 
@@ -101,11 +117,11 @@ public class EssentialListener implements org.bukkit.event.Listener {
 
     @EventHandler
     public void onTabComplete(TabCompleteEvent e) {
-       if (e.getSender() instanceof Player) {
-           List<String> completions = new ArrayList<>(e.getCompletions());
-           completions.removeIf(completion -> completion.startsWith("plugin"));
-           e.setCompletions(completions);
-       }
+        if (e.getSender() instanceof Player) {
+            List<String> completions = new ArrayList<>(e.getCompletions());
+            completions.removeIf(completion -> completion.startsWith("plugin"));
+            e.setCompletions(completions);
+        }
     }
 
     @EventHandler
@@ -113,16 +129,16 @@ public class EssentialListener implements org.bukkit.event.Listener {
         if (!event.getPlayer().hasPermission("megacraft.blockedcommands.bypass")) {
             Iterator<String> it = event.getCommands().iterator();
             String str;
-                while (it.hasNext()) {
-                    str = (String) it.next();
-                    if (str.contains(":")) {
-                        it.remove();
-                    }
+            while (it.hasNext()) {
+                str = (String) it.next();
+                if (str.contains(":")) {
+                    it.remove();
                 }
-                for (int i = 0; i < MegaEssentials.getInstance().getConfig().getStringList("blocked_commands").size(); i++) {
-                    if (!event.getPlayer().hasPermission("megacraft.blockedcommands.bypass"))
-                        event.getCommands().remove(MegaEssentials.getInstance().getConfig().getStringList("blocked_commands").get(i));
-                }
+            }
+            for (int i = 0; i < MegaEssentials.getInstance().getConfig().getStringList("blocked_commands").size(); i++) {
+                if (!event.getPlayer().hasPermission("megacraft.blockedcommands.bypass"))
+                    event.getCommands().remove(MegaEssentials.getInstance().getConfig().getStringList("blocked_commands").get(i));
+            }
         }
     }
 
