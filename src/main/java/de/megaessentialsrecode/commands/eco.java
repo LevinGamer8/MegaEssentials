@@ -48,7 +48,7 @@ public class eco implements CommandExecutor, TabCompleter {
                 }
                 targetPD.addEconomy(amount);
                 sender.sendMessage(MegaEssentials.Prefix + "§6Du §bhast " + target.getName() + "§6 " + this.economyProvider.format(amount) + " §b€ §agegeben");
-                target1.sendTitle("§6" + this.economyProvider.format(amount),  "§b€ wurden §6dir §agegeben");
+                target1.sendTitle("§bDir wurden §6" + this.economyProvider.format(amount) + " §b€",  "§agegeben");
             } else {
                 PlayerData targetPD = new PlayerData(target.getName());
                 if (!(targetPD.exists())) {
