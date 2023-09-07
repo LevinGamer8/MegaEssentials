@@ -13,7 +13,7 @@ public class Teams {
     }
 
     public static void create(Scoreboard scoreboard) {
-        registerTeam(scoreboard, "0001Owner", Ranks.Ownerprefix, ChatColor.GRAY);
+        registerTeam(scoreboard, "0001Owner", "§f" + Ranks.Ownerprefix, ChatColor.DARK_AQUA);
         registerTeam(scoreboard, "0002Admin", Ranks.Adminprefix, ChatColor.GRAY);
         registerTeam(scoreboard, "0003Moderator", Ranks.Moderatorprefix, ChatColor.GRAY);
         registerTeam(scoreboard, "0004Builder", Ranks.Builderprefix, ChatColor.GRAY);

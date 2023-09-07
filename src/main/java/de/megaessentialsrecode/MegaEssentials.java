@@ -110,7 +110,7 @@ public final class MegaEssentials extends JavaPlugin{
 
     public void initMySQL() {
         try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement("CREATE TABLE IF NOT EXISTS playerdata (Name VARCHAR(64) NOT NULL, money DOUBLE)");
+             PreparedStatement ps = conn.prepareStatement("CREATE TABLE IF NOT EXISTS playerdata (Name VARCHAR(64) NOT NULL, money DOUBLE, vanish BOOLEAN)")
         ) {
             ps.executeUpdate();
 

@@ -45,9 +45,10 @@ public class EssentialListener implements org.bukkit.event.Listener {
         for (Player vanishedplayer : Bukkit.getOnlinePlayers()) {
             PlayerData vanishedPD = new PlayerData(vanishedplayer.getName());
             if (vanishedPD.getVanished()) {
-                p.hidePlayer(plugin, vanishedplayer);
+                if (!(p.hasPermission("megacraft.command.vanish.see"))) {
+                    p.hidePlayer(plugin, vanishedplayer);
+                }
             }
-
         }
     }
 

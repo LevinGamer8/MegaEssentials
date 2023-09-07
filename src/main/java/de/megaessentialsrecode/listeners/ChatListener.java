@@ -25,7 +25,7 @@ public class ChatListener implements Listener {
             switch (group) {
 
                 case "owner":
-                    event.setFormat(Ranks.Ownerprefix + ChatColor.GRAY + name + " §8-> " + ChatColor.GRAY + message.replace('&', '§'));
+                    event.setFormat(Ranks.Ownerprefix + ChatColor.AQUA + name + " §8-> " + ChatColor.GRAY + message.replace('&', '§'));
                     break;
                 case "admin":
                     event.setFormat(Ranks.Adminprefix + ChatColor.GRAY + name + " §8-> " + ChatColor.GRAY + message.replace('&', '§'));

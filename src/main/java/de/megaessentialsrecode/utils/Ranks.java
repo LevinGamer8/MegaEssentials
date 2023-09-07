@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class Ranks {
 
-    public static String Ownerprefix = "§x§1§a§c§6§e§4O§x§1§4§c§b§d§9w§x§0§d§c§f§c§en§x§0§7§d§4§c§2e§x§0§0§d§8§b§7r §8| ";
+    public static String Ownerprefix = "ꐞ §8| ";
     public static String Adminprefix = "§x§e§4§2§8§1§5A§x§d§7§2§3§1§3d§x§c§b§1§d§1§1m§x§b§e§1§8§0§fi§x§b§1§1§2§0§dn §8| ";
     public static String Moderatorprefix = "§x§e§4§3§e§0§1M§x§e§3§3§8§0§2o§x§e§3§3§3§0§3d§x§e§2§2§d§0§4e§x§e§2§2§7§0§6r§x§e§1§2§1§0§7a§x§e§0§1§c§0§8t§x§e§0§1§6§0§9o§x§d§f§1§0§0§ar §8| ";
     public static String Builderprefix = "§x§2§c§e§4§1§5B§x§2§a§d§7§1§9u§x§2§8§c§a§1§ci§x§2§7§b§d§2§0l§x§2§5§a§f§2§3d§x§2§3§a§2§2§7e§x§2§1§9§5§2§ar §8| ";
