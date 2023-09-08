@@ -13,16 +13,16 @@ public class Teams {
     }
 
     public static void create(Scoreboard scoreboard) {
-        registerTeam(scoreboard, "0001Owner", "§f" + Ranks.Ownerprefix, ChatColor.DARK_AQUA);
-        registerTeam(scoreboard, "0002Admin", Ranks.Adminprefix, ChatColor.GRAY);
-        registerTeam(scoreboard, "0003Moderator", Ranks.Moderatorprefix, ChatColor.GRAY);
-        registerTeam(scoreboard, "0004Builder", Ranks.Builderprefix, ChatColor.GRAY);
-        registerTeam(scoreboard, "0005Supporter", Ranks.Supporterprefix, ChatColor.GRAY);
-        registerTeam(scoreboard, "0006Partner", Ranks.Partnerprefix, ChatColor.GRAY);
-        registerTeam(scoreboard, "0007T-Team", Ranks.Tteamprefix, ChatColor.GRAY);
-        registerTeam(scoreboard, "0008MEGA", Ranks.Megaprefix, ChatColor.GRAY);
-        registerTeam(scoreboard, "0009Premium", Ranks.Premiumprefix, ChatColor.GRAY);
-        registerTeam(scoreboard, "0099Spieler", Ranks.Spielerprefix, ChatColor.GRAY);
+        registerTeam(scoreboard, "0001Owner", "§f" + Ranks.Ownerprefix);
+        registerTeam(scoreboard, "0002Admin", Ranks.Adminprefix);
+        registerTeam(scoreboard, "0003Moderator", Ranks.Moderatorprefix);
+        registerTeam(scoreboard, "0004Builder", Ranks.Builderprefix);
+        registerTeam(scoreboard, "0005Supporter", Ranks.Supporterprefix);
+        registerTeam(scoreboard, "0006Partner", Ranks.Partnerprefix);
+        registerTeam(scoreboard, "0007T-Team", Ranks.Tteamprefix);
+        registerTeam(scoreboard, "0008MEGA", Ranks.Megaprefix);
+        registerTeam(scoreboard, "0009Premium", Ranks.Premiumprefix);
+        registerTeam(scoreboard, "0099Spieler", Ranks.Spielerprefix);
     }
 
     public static void set(Scoreboard scoreboard) {
@@ -94,9 +94,8 @@ public class Teams {
         });
     }
 
-    private static void registerTeam(Scoreboard scoreboard, String name, String prefix, ChatColor chatColor) {
+    private static void registerTeam(Scoreboard scoreboard, String name, String prefix) {
         Team team = scoreboard.registerNewTeam(name);
         team.setPrefix(prefix);
-        team.setColor(chatColor);
     }
 }

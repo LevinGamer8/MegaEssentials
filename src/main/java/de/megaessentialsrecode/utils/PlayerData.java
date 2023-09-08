@@ -42,10 +42,10 @@ public class PlayerData {
         this.money = money;
     }
 
-    public boolean getVanished() {
+    private boolean getVanished() {
         return vanished;
     }
-    public void setVanished(boolean vanished) {
+    private void setVanished(boolean vanished) {
         this.vanished = vanished;
     }
 

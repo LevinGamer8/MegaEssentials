@@ -69,3 +69,6 @@ commands:
   vanish:
     permission: megacraft.command.vanish
     aliases: v
+  speed:
+  workbench:
+    aliases: wb

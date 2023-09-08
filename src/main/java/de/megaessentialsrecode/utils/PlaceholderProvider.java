@@ -2,6 +2,7 @@ package de.megaessentialsrecode.utils;
 
 import de.megaessentialsrecode.MegaEssentials;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class PlaceholderProvider extends PlaceholderExpansion {
@@ -42,6 +43,16 @@ public class PlaceholderProvider extends PlaceholderExpansion {
             }
             PlayerData pd = new PlayerData(player.getName());
             return this.economyProvider.format(pd.getMoney());
+        }
+        if (params.equals("players")) {
+            int players = 0;
+            for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+                PlayerData pd = new PlayerData(onlinePlayer.getName());
+                if (!(pd.isVanished())) {
+                    players++;
+                }
+            }
+            return String.valueOf(players);
         }
         return super.onPlaceholderRequest(player, params);
     }
