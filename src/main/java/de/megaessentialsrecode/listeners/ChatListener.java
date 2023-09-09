@@ -25,16 +25,16 @@ public class ChatListener implements Listener {
             switch (group) {
 
                 case "owner":
-                    event.setFormat(Ranks.Ownerprefix + ChatColor.AQUA + name + " §8-> " + ChatColor.GRAY + message.replace('&', '§'));
+                    event.setFormat(Ranks.Ownerprefix + ChatColor.GREEN + name + " §7-> " + ChatColor.AQUA + message.replace('&', '§'));
                     break;
                 case "admin":
-                    event.setFormat(Ranks.Adminprefix + ChatColor.GRAY + name + " §8-> " + ChatColor.GRAY + message.replace('&', '§'));
+                    event.setFormat(Ranks.Adminprefix + ChatColor.GREEN + name + " §7-> " + ChatColor.GRAY + message.replace('&', '§'));
                     break;
                 case "moderator":
-                    event.setFormat(Ranks.Moderatorprefix + ChatColor.GRAY + name + " §8-> " + ChatColor.GRAY + message.replace('&', '§'));
+                    event.setFormat(Ranks.Moderatorprefix + ChatColor.GREEN + name + " §7-> " + ChatColor.GRAY + message.replace('&', '§'));
                     break;
                 case "builder":
-                    event.setFormat(Ranks.Builderprefix + ChatColor.GRAY + name + " §8-> " + ChatColor.GRAY + message.replace('&', '§'));
+                    event.setFormat(Ranks.Builderprefix + ChatColor.GREEN + name + " §7-> " + ChatColor.GRAY + message.replace('&', '§'));
                     break;
                 case "supporter":
                     event.setFormat(Ranks.Supporterprefix + ChatColor.GRAY + name + " §8-> " + ChatColor.GRAY + message.replace('&', '§'));

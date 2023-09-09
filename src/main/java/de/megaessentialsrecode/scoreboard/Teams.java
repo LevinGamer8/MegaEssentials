@@ -13,16 +13,16 @@ public class Teams {
     }
 
     public static void create(Scoreboard scoreboard) {
-        registerTeam(scoreboard, "0001Owner", "§f" + Ranks.Ownerprefix, ChatColor.DARK_AQUA);
-        registerTeam(scoreboard, "0002Admin", Ranks.Adminprefix, ChatColor.GRAY);
-        registerTeam(scoreboard, "0003Moderator", Ranks.Moderatorprefix, ChatColor.GRAY);
-        registerTeam(scoreboard, "0004Builder", Ranks.Builderprefix, ChatColor.GRAY);
-        registerTeam(scoreboard, "0005Supporter", Ranks.Supporterprefix, ChatColor.GRAY);
-        registerTeam(scoreboard, "0006Partner", Ranks.Partnerprefix, ChatColor.GRAY);
-        registerTeam(scoreboard, "0007T-Team", Ranks.Tteamprefix, ChatColor.GRAY);
-        registerTeam(scoreboard, "0008MEGA", Ranks.Megaprefix, ChatColor.GRAY);
-        registerTeam(scoreboard, "0009Premium", Ranks.Premiumprefix, ChatColor.GRAY);
-        registerTeam(scoreboard, "0099Spieler", Ranks.Spielerprefix, ChatColor.GRAY);
+        registerTeam(scoreboard, "0001Owner", "§f" + Ranks.Ownerprefix, ChatColor.GREEN);
+        registerTeam(scoreboard, "0002Admin", "§f" + Ranks.Adminprefix, ChatColor.GREEN);
+        registerTeam(scoreboard, "0003Moderator", "§f" + Ranks.Moderatorprefix, ChatColor.GREEN);
+        registerTeam(scoreboard, "0004Builder", "§f" + Ranks.Builderprefix, ChatColor.GRAY);
+        registerTeam(scoreboard, "0005Supporter", "§f" + Ranks.Supporterprefix, ChatColor.GRAY);
+        registerTeam(scoreboard, "0006Partner", "§f" + Ranks.Partnerprefix, ChatColor.GRAY);
+        registerTeam(scoreboard, "0007T-Team", "§f" + Ranks.Tteamprefix, ChatColor.GRAY);
+        registerTeam(scoreboard, "0008MEGA", "§f" + Ranks.Megaprefix, ChatColor.GRAY);
+        registerTeam(scoreboard, "0009Premium", "§f" + Ranks.Premiumprefix, ChatColor.GRAY);
+        registerTeam(scoreboard, "0099Spieler","§f" +  Ranks.Spielerprefix, ChatColor.GRAY);
     }
 
     public static void set(Scoreboard scoreboard) {

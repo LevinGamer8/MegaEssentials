@@ -20,7 +20,7 @@ import java.util.List;
 
 public class EssentialListener implements org.bukkit.event.Listener {
 
-    private Plugin plugin;
+    private final Plugin plugin;
     public EssentialListener(Plugin plugin) {
         this.plugin = plugin;
     }
@@ -60,6 +60,9 @@ public class EssentialListener implements org.bukkit.event.Listener {
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
         e.setDeathMessage("");
+        if (e.getEntity() instanceof Player) {
+            Player p = e.getEntity();
+        }
     }
 
 
@@ -120,6 +123,13 @@ public class EssentialListener implements org.bukkit.event.Listener {
     public void onTabComplete(TabCompleteEvent e) {
         if (e.getSender() instanceof Player) {
             List<String> completions = new ArrayList<>(e.getCompletions());
+            for (Player vanished : Bukkit.getOnlinePlayers()) {
+                PlayerData pd = new PlayerData(vanished.getName());
+                if (pd.isVanished()) {
+                    completions.removeIf(completion -> completion.startsWith(pd.getName()));
+                }
+            }
+
             completions.removeIf(completion -> completion.startsWith("plugin"));
             e.setCompletions(completions);
         }
@@ -127,8 +137,20 @@ public class EssentialListener implements org.bukkit.event.Listener {
 
     @EventHandler
     public void onList(PlayerCommandSendEvent event) {
+        Iterator<String> it = event.getCommands().iterator();
+        for (Player vanished : Bukkit.getOnlinePlayers()) {
+            PlayerData pd = new PlayerData(vanished.getName());
+            String str;
+            if (pd.isVanished()) {
+                while (it.hasNext()) {
+                    str = (String) it.next();
+                    if (str.contains(pd.getName())) {
+                        it.remove();
+                    }
+                }
+            }
+        }
         if (!event.getPlayer().hasPermission("megacraft.blockedcommands.bypass")) {
-            Iterator<String> it = event.getCommands().iterator();
             String str;
             while (it.hasNext()) {
                 str = (String) it.next();

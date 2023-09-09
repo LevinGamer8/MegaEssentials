@@ -14,6 +14,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.messaging.PluginMessageListener;
+import org.jetbrains.annotations.NotNull;
 
 import javax.sql.DataSource;
 import java.io.File;
@@ -26,7 +28,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public final class MegaEssentials extends JavaPlugin{
+public final class MegaEssentials extends JavaPlugin implements PluginMessageListener {
 
     private DataSource dataSource;
     private static MegaEssentials instance;
@@ -100,13 +102,6 @@ public final class MegaEssentials extends JavaPlugin{
             }
         }
     }
-    public void onPluginMessageReceived(String channel, Player player, byte[] message) {
-        if (!channel.equals("BungeeCord")) {
-            return;
-        }
-        ByteArrayDataInput in = ByteStreams.newDataInput(message);
-        String subchannel = in.readUTF();
-    }
 
     public void initMySQL() {
         try (Connection conn = dataSource.getConnection();
@@ -153,6 +148,7 @@ public final class MegaEssentials extends JavaPlugin{
         getCommand("ping").setExecutor(new ping());
         getCommand("chatclear").setExecutor(new cc());
         getCommand("vanish").setExecutor(new vanish(this));
+        getCommand("update").setExecutor(new update(this));
         if (this.getConfig().getBoolean("battlepass.enabled")) {
             getCommand("battlepass").setExecutor(new battlepass());
         }
@@ -177,6 +173,24 @@ public final class MegaEssentials extends JavaPlugin{
         }
         Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         Bukkit.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this::onPluginMessageReceived);
+        getServer().getMessenger().registerIncomingPluginChannel( this, "megacord:inv", this );
+    }
+
+
+    @Override
+    public void onPluginMessageReceived(String channel, @NotNull Player player, byte[] bytes)
+    {
+        if ( !channel.equalsIgnoreCase( "megacord:inv" ) )
+        {
+            return;
+        }
+        ByteArrayDataInput in = ByteStreams.newDataInput( bytes );
+        String subChannel = in.readUTF();
+        if ( subChannel.equalsIgnoreCase( "megacordSUB" ) )
+        {
+            ServerGUI serverGUI = new ServerGUI();
+            player.openInventory(serverGUI.ServerGUI());
+        }
     }
 
     public void loadConfig() {

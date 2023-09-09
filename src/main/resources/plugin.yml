@@ -69,3 +69,5 @@ commands:
   vanish:
     permission: megacraft.command.vanish
     aliases: v
+  update:
+    permission: megacraft.command.update
