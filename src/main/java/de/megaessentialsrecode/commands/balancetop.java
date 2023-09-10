@@ -38,7 +38,7 @@ public class balancetop implements CommandExecutor {
         for (String playerUUID : registeredPlayers) {
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(playerUUID));
             PlayerData pd1 = new PlayerData(offlinePlayer.getName());
-            double balance = pd.getEconomy();
+            double balance = pd1.getEconomy();
 
             balances.put(offlinePlayer.getName(), balance);
         }
