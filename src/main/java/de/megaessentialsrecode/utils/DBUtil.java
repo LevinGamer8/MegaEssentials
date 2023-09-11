@@ -29,35 +29,5 @@ public final class DBUtil {
         return String.join(", ", list);
     }
 
-    public static CompletableFuture<Integer> getWhatCount(DataSource source, String player, String type, boolean where) {
-        return CompletableFuture.supplyAsync(() -> {
-            try (Connection conn = source.getConnection();
-                 PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) AS count FROM history WHERE TargetName = ?" + (where ? " AND Type = ?" : "") + " ORDER BY ERSTELLT DESC");) {
-                ps.setString(1, player);
-                if (where) {
-                    ps.setString(2, type);
-                }
-                ResultSet rs = ps.executeQuery();
-                while (rs.first())
-                    return rs.getInt(1);
-            } catch (SQLException e) {
-                MegaEssentials.logger().log(Level.WARNING, "could not count for " + type, e);
-            }
-            return -1;
-        }, MegaEssentials.getInstance().EXECUTOR_SERVICE);
-    }
 
-    public static CompletableFuture<Boolean> timeExists(DataSource source, long erstellt) {
-        return CompletableFuture.supplyAsync(() -> {
-            try (Connection conn = source.getConnection();
-                 PreparedStatement ps = conn.prepareStatement("SELECT * FROM bannedPlayers WHERE TimeStamp = ?")) {
-                ps.setLong(1, erstellt);
-                ResultSet rs = ps.executeQuery();
-                return rs.next();
-            } catch (SQLException e) {
-                MegaEssentials.logger().log(Level.WARNING, "could not check if timestamp exists", e);
-            }
-            return false;
-        }, MegaEssentials.getInstance().EXECUTOR_SERVICE);
-    }
 }

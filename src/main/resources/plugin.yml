@@ -71,3 +71,4 @@ commands:
     aliases: v
   update:
     permission: megacraft.command.update
+  gift:

@@ -154,6 +154,7 @@ public final class MegaEssentials extends JavaPlugin implements PluginMessageLis
         }
         getCommand("player").setExecutor(new info());
         getCommand("chatclear").setExecutor(new cc());
+        getCommand("gift").setExecutor(new gift());
         if (this.getConfig().getBoolean("spawn.enabled")) {
             getCommand("spawn").setExecutor(new spawn());
             getCommand("setspawn").setExecutor(new setSpawn(this));
@@ -203,7 +204,7 @@ public final class MegaEssentials extends JavaPlugin implements PluginMessageLis
             saveResource("config.yml", true);
         }
         this.saveDefaultConfig();
-        if (!this.getConfig().contains("mysql.host") && this.getConfig().contains("rankprefix.enabled")) {
+        if (!this.getConfig().contains("mysql.host") || this.getConfig().contains("rankprefix.enabled")) {
             this.getConfig().set("plugin.name", "megaessentials");
             this.getConfig().set("plugin.prefix", "&3MegaCraft&7: &r");
             this.getConfig().set("mysql.host", "localhost");
@@ -219,6 +220,7 @@ public final class MegaEssentials extends JavaPlugin implements PluginMessageLis
             this.getConfig().set("spawn.world", "world");
             this.getConfig().set("battlepass.enabled", "true");
             this.getConfig().set("rankprefix.enabled", "true");
+            this.getConfig().set("deviceinfo.enabled", "true");
             this.saveConfig();
         }
     }

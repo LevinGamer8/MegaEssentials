@@ -1,6 +1,7 @@
 package de.megaessentialsrecode.commands;
 
 import de.megaessentialsrecode.utils.PluginUtils;
+import de.megaessentialsrecode.utils.UpdateUTILS;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,6 +13,7 @@ import org.json.JSONObject;
 
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
@@ -19,38 +21,39 @@ public class update implements CommandExecutor {
 
     private final Plugin plugin;
 
-    private static final String GITHUB_OWNER = "ViaVersion";
-
-    private static final String GITHUB_REPO = "ViaVersion";
-
-    private static final String GITHUB_API_URL = "https://api.github.com/repos/ViaVersion/ViaVersion/releases/latest";
-
-    private String newversion;
+    private static URL VIAVERSION_URL = UpdateUTILS.VIAVERSION_URL();
 
     public update(Plugin plugin) {
         this.plugin = plugin;
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args) {
-        try {
-            String currentVersion = Bukkit.getPluginManager().getPlugin("ViaVersion").getDescription().getVersion();
-            String latestVersion = getLatestVersion();
-            if (!latestVersion.equals(currentVersion)) {
-                String downloadUrl = getDownloadUrlForVersion(latestVersion);
-                String destination = this.plugin.getDataFolder().getParentFile().getPath() + "/ViaVersion-" + latestVersion + ".jar";
-                this.newversion = latestVersion;
-                downloadFile(downloadUrl, destination);
-                Plugin oldviaVersionPlugin = Bukkit.getPluginManager().getPlugin("ViaVersion");
-                PluginUtils pluginUtils = new PluginUtils(plugin);
-                pluginUtils.unload(oldviaVersionPlugin.getName());
-                deleteOldVersion(currentVersion);
-                sender.sendMessage("ViaVersion-" + latestVersion + " erfolgreich heruntergeladen.");
-            } else {
-                sender.sendMessage("Du hast bereits die neueste Version von ViaVersion installiert.");
-            }
-        } catch (IOException e) {
-            sender.sendMessage("Fehler beim Herunterladen der Datei: " + e.getMessage());
+
+        switch (args[0]) {
+
+            case "viaversion":
+                try {
+                    String currentVersion = Bukkit.getPluginManager().getPlugin("ViaVersion").getDescription().getVersion();
+                    String latestVersion = getLatestVersion(VIAVERSION_URL);
+                    if (!latestVersion.equals(currentVersion)) {
+                        String downloadUrl = getDownloadUrlForVersion(latestVersion, VIAVERSION_URL, "ViaVersion");
+                        String destination = this.plugin.getDataFolder().getParentFile().getPath() + "/ViaVersion-" + latestVersion + ".jar";
+                        downloadFile(downloadUrl, destination);
+                        Plugin oldviaVersionPlugin = Bukkit.getPluginManager().getPlugin("ViaVersion");
+                        PluginUtils pluginUtils = new PluginUtils(plugin);
+                        pluginUtils.unload(oldviaVersionPlugin.getName());
+                        deleteOldVersion(currentVersion);
+                        sender.sendMessage("ViaVersion-" + latestVersion + " erfolgreich heruntergeladen.");
+                    } else {
+                        sender.sendMessage("Du hast bereits die neueste Version von ViaVersion installiert.");
+                    }
+                } catch (IOException e) {
+                    sender.sendMessage("Fehler beim Herunterladen der Datei: " + e.getMessage());
+                }
+
+            break;
         }
+
         return true;
     }
 
@@ -84,9 +87,8 @@ public class update implements CommandExecutor {
         }
     }
 
-    private String getLatestVersion() throws IOException {
-        URL url = new URL("https://api.github.com/repos/ViaVersion/ViaVersion/releases/latest");
-        HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+    private String getLatestVersion(URL downloadURL) throws IOException {
+        HttpURLConnection connection = (HttpURLConnection)downloadURL.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Accept", "application/vnd.github.v3+json");
         int responseCode = connection.getResponseCode();
@@ -101,8 +103,7 @@ public class update implements CommandExecutor {
         throw new IOException("Fehler beim Abrufen der API-Antwort. Response Code: " + responseCode);
     }
 
-    private String getDownloadUrlForVersion(String version) throws IOException {
-        URL url = new URL("https://api.github.com/repos/ViaVersion/ViaVersion/releases/latest");
+    private String getDownloadUrlForVersion(String version, URL url, String plugin) throws IOException {
         HttpURLConnection connection = (HttpURLConnection)url.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Accept", "application/vnd.github.v3+json");
@@ -119,7 +120,7 @@ public class update implements CommandExecutor {
                 for (int i = 0; i < assetsArray.length(); i++) {
                     JSONObject asset = assetsArray.getJSONObject(i);
                     String assetName = asset.getString("name");
-                    if (assetName.equals("ViaVersion-" + version + ".jar")) {
+                    if (assetName.equals(plugin + "-" + version + ".jar")) {
                         downloadUrl = asset.getString("browser_download_url");
                         break;
                     }

@@ -1,16 +1,21 @@
 package de.megaessentialsrecode.listeners;
 
 import de.megaessentialsrecode.MegaEssentials;
+import de.megaessentialsrecode.utils.ItemBuilder;
 import de.megaessentialsrecode.utils.Locations;
 import de.megaessentialsrecode.utils.PlayerData;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.event.server.TabCompleteEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.Plugin;
 
@@ -62,6 +67,37 @@ public class EssentialListener implements org.bukkit.event.Listener {
         if (e.getEntity() instanceof Player) {
             Player p = e.getEntity();
         }
+    }
+
+
+    @EventHandler
+    public void onInteract(PlayerInteractAtEntityEvent e) {
+
+        Player p = e.getPlayer();
+
+
+        if (!(e.getRightClicked() instanceof Player)) {
+            return;
+        }
+
+        if (p.isSneaking()) {
+            Player target = (Player) e.getRightClicked();
+
+            Inventory tradingInv = Bukkit.createInventory(null, 4*9, "§aTauschen");
+
+            ItemStack glass_pane = new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).setDisplayName("§b").build();
+
+            for (int i = 0; i < 36;) {
+                tradingInv.setItem(i, glass_pane);
+            }
+
+
+
+            p.openInventory(tradingInv);
+            target.openInventory(tradingInv);
+        }
+
+
     }
 
 

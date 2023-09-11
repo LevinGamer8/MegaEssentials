@@ -69,6 +69,10 @@
             <id>placeholderapi</id>
             <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
+        <repository>
+            <id>opencollab-snapshot</id>
+            <url>https://repo.opencollab.dev/main/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -109,16 +113,10 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.mariadb.jdbc</groupId>
-            <artifactId>mariadb-java-client</artifactId>
-            <version>2.7.2</version>
-        </dependency>
-        <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20210307</version> <!-- Ersetzen Sie dies durch die gewünschte Version -->
         </dependency>
-
     </dependencies>
 
 
