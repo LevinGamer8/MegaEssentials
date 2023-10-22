@@ -5,10 +5,7 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import de.megaessentialsrecode.commands.*;
 import de.megaessentialsrecode.listeners.*;
-import de.megaessentialsrecode.utils.ConnectionPoolFactory;
-import de.megaessentialsrecode.utils.EconomyProvider;
-import de.megaessentialsrecode.utils.MoneyGiveTask;
-import de.megaessentialsrecode.utils.PlaceholderProvider;
+import de.megaessentialsrecode.utils.*;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -41,6 +38,7 @@ public final class MegaEssentials extends JavaPlugin implements PluginMessageLis
     public final static String noPerms = "§4Dazu hast du keine Rechte!";
     public static String booster;
     public ExecutorService EXECUTOR_SERVICE = Executors.newSingleThreadExecutor();
+    private UpdateUTILS updateUTILS = new UpdateUTILS(this);
 
     @Override
     public void onEnable() {
@@ -62,10 +60,12 @@ public final class MegaEssentials extends JavaPlugin implements PluginMessageLis
             onDisable();
             return;
         }
+
+
         dependencyCheck();
-        initMySQL();
         registerCommands();
         registerListeners();
+        initMySQL();
     }
 
 
@@ -148,7 +148,7 @@ public final class MegaEssentials extends JavaPlugin implements PluginMessageLis
         getCommand("ping").setExecutor(new ping());
         getCommand("chatclear").setExecutor(new cc());
         getCommand("vanish").setExecutor(new vanish(this));
-        getCommand("update").setExecutor(new update(this));
+        getCommand("update").setExecutor(new update(this, updateUTILS));
         if (this.getConfig().getBoolean("battlepass.enabled")) {
             getCommand("battlepass").setExecutor(new battlepass());
         }
@@ -204,7 +204,7 @@ public final class MegaEssentials extends JavaPlugin implements PluginMessageLis
             saveResource("config.yml", true);
         }
         this.saveDefaultConfig();
-        if (!this.getConfig().contains("mysql.host") || this.getConfig().contains("rankprefix.enabled")) {
+        if (!this.getConfig().contains("mysql.host") && this.getConfig().contains("rankprefix.enabled")) {
             this.getConfig().set("plugin.name", "megaessentials");
             this.getConfig().set("plugin.prefix", "&3MegaCraft&7: &r");
             this.getConfig().set("mysql.host", "localhost");

@@ -7,6 +7,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Objects;
+
 public class sun implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
@@ -23,7 +25,7 @@ public class sun implements CommandExecutor {
             return true;
         }
 
-        Bukkit.getWorld(p.getWorld().getUID()).setClearWeatherDuration(1000000000);
+        Objects.requireNonNull(Bukkit.getWorld(p.getWorld().getUID())).setClearWeatherDuration(1000000000);
         p.sendMessage(MegaEssentials.Prefix + "§bEs ist nun §esonnig");
         return false;
     }

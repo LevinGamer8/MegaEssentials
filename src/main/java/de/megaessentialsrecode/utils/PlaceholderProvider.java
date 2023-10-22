@@ -57,16 +57,6 @@ public class PlaceholderProvider extends PlaceholderExpansion {
             }
             return String.valueOf(players);
         }
-        if (params.equals("players")) {
-            int players = 0;
-            for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-                PlayerData pd = new PlayerData(onlinePlayer.getName());
-                if (!(pd.isVanished())) {
-                    players++;
-                }
-            }
-            return String.valueOf(players);
-        }
         return super.onPlaceholderRequest(player, params);
     }
 }

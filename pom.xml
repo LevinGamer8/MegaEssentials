@@ -73,6 +73,11 @@
             <id>opencollab-snapshot</id>
             <url>https://repo.opencollab.dev/main/</url>
         </repository>
+        <repository>
+            <id>lenni0451-maven-releases</id>
+            <name>Lenni0451 Maven Repository</name>
+            <url>https://maven.lenni0451.net/releases</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -116,6 +121,16 @@
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20210307</version> <!-- Ersetzen Sie dies durch die gewünschte Version -->
+        </dependency>
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>2.7.2</version>
+        </dependency>
+        <dependency>
+            <groupId>net.lenni0451</groupId>
+            <artifactId>SpigotPluginManager</artifactId>
+            <version>2.7.2</version>
         </dependency>
     </dependencies>
 

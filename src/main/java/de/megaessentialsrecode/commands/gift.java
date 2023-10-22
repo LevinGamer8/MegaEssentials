@@ -10,6 +10,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public class gift implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
@@ -38,7 +40,7 @@ public class gift implements CommandExecutor {
             return true;
         }
 
-        luckPerms.getUserManager().getUser(args[0]).setPrimaryGroup("premium");
+        Objects.requireNonNull(luckPerms.getUserManager().getUser(args[0])).setPrimaryGroup("premium");
 
 
 

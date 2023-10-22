@@ -64,9 +64,6 @@ public class EssentialListener implements org.bukkit.event.Listener {
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
         e.setDeathMessage("");
-        if (e.getEntity() instanceof Player) {
-            Player p = e.getEntity();
-        }
     }
 
 

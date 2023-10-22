@@ -32,7 +32,7 @@ public class workbench implements CommandExecutor {
                 p.sendMessage(MegaEssentials.Prefix + "§4Der §6Spieler " + args[0] + " §bist nicht §aonline§4!");
             }
 
-            target.openWorkbench(target.getLocation(), true);
+            target.openWorkbench(null, true);
 
         }
         return true;
