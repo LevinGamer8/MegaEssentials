@@ -41,7 +41,7 @@ public class tp implements CommandExecutor, TabCompleter {
             }
             p.sendMessage(MegaEssentials.Prefix + "§bDu wirst zu §6" + target.getName() + " §bteleportiert");
             p.teleport(target.getLocation());
-        } else if (args.length == 2) {
+        } else {
             Player target = Bukkit.getPlayer(args[0]);
             Player target2 = Bukkit.getPlayer(args[1]);
             if (target == p || target2 == p) {

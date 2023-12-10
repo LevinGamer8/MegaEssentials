@@ -35,12 +35,13 @@ public class balance implements CommandExecutor, TabCompleter {
             sender.sendMessage(MegaEssentials.Prefix + "§4Nutze: /balance §b<Spieler>");
             return true;
         }
-        PlayerData pd = new PlayerData(player.getName());
         if (args.length == 0) {
+            PlayerData pd = new PlayerData(player.getName());
             player.sendMessage(MegaEssentials.Prefix + "§bDein §6Bargeld§7:§a " + this.economyProvider.format(pd.getMoney()) + " §b" + this.economyProvider.currencyNameSingular());
-        } else if (args.length == 1 ) {
+        } else {
             if (player.hasPermission("megacraft.command.balance.others")) {
                 OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
+                PlayerData pd = new PlayerData(target.getName());
                 player.sendMessage(MegaEssentials.Prefix + "§b" + target.getName() + "'s §6Bargeld§7:§a " + (this.economyProvider.format(pd.getMoney()) + " §b" + this.economyProvider.currencyNameSingular()));
             }
         }

@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import java.util.Objects;
 import java.util.Vector;
 import java.util.logging.Level;
 
@@ -20,10 +21,10 @@ public class Locations {
 
     public static void teleportToSpawn(Player p) {
 
-        Double x = Double.valueOf(MegaEssentials.getInstance().getConfig().getString("spawn.x"));
-        Double y = Double.valueOf(MegaEssentials.getInstance().getConfig().getString("spawn.y"));
-        Double z = Double.valueOf(MegaEssentials.getInstance().getConfig().getString("spawn.z"));
-        World world = Bukkit.getServer().getWorld(MegaEssentials.getInstance().getConfig().getString("spawn.world"));
+        double x = Double.parseDouble(Objects.requireNonNull(MegaEssentials.getInstance().getConfig().getString("spawn.x")));
+        double y = Double.parseDouble(Objects.requireNonNull(MegaEssentials.getInstance().getConfig().getString("spawn.y")));
+        double z = Double.parseDouble(Objects.requireNonNull(MegaEssentials.getInstance().getConfig().getString("spawn.z")));
+        World world = Bukkit.getServer().getWorld(Objects.requireNonNull(MegaEssentials.getInstance().getConfig().getString("spawn.world")));
         if (world != null) {
             Location spawnLocation = new Location(world, x, y, z);
             spawnLocation.setYaw(yaw);

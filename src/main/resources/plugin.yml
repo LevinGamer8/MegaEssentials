@@ -6,6 +6,7 @@ load: STARTUP
 depend:
   - Vault
   - PlaceholderAPI
+  - ProtocolLib
 softdepend:
   - LuckPerms
 author: LevinGamer8
@@ -15,8 +16,6 @@ commands:
     permission: megacraft.command.admin
   fly:
     permission: megacraft.command.fly
-  tpa:
-  tpahere:
   heal:
     permission: megacraft.command.heal
   feed:
@@ -31,7 +30,6 @@ commands:
     permission: megacraft.command.eco
   invsee:
     permission: megacraft.command.invsee
-  tpaccept:
   enchant:
     permission: megacraft.command.enchant
   enderchest:
@@ -48,10 +46,15 @@ commands:
     permission: megacraft.command.sun
   rain:
     permission: megacraft.command.rain
+  tpa:
+  tpahere:
+  tpaccept:
+  tpdeny:
   tp:
     permission: megacraft.command.teleport
   tphere:
-    permission: megacraft.command.tphere
+    permission: megacraft.command.teleporthere
+  home:
   spawn:
   setspawn:
     permission: megacraft.command.setspawn
@@ -72,3 +75,12 @@ commands:
   update:
     permission: megacraft.command.update
   gift:
+  workbench:
+    aliases:
+      - wb
+  warp:
+  setwarp:
+    permission: megacraft.command.setwarp
+  deletewarp:
+    permission: megacraft.command.deletewarp
+    aliases: delwarp

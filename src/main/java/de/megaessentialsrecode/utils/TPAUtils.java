@@ -5,9 +5,9 @@ import org.bukkit.entity.Player;
 
 public class TPAUtils {
 
-    private Player sender;
+    private final Player sender;
 
-    private Player receiver;
+    private final Player receiver;
 
     private Location location;
 

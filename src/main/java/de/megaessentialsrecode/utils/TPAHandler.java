@@ -18,7 +18,7 @@ public class TPAHandler {
                 if (r.getReceiver().getUniqueId().toString().equalsIgnoreCase(request.getReceiver().getUniqueId().toString()))
                     cancelRequest(r);
             }
-        } catch (ConcurrentModificationException concurrentModificationException) {}
+        } catch (ConcurrentModificationException ignored) {}
         activeRequests.add(request);
     }
 

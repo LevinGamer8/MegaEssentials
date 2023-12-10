@@ -1,6 +1,7 @@
 package de.megaessentialsrecode.commands;
 
 import de.megaessentialsrecode.MegaEssentials;
+import de.megaessentialsrecode.utils.PlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,7 +18,7 @@ import java.util.List;
 public class enderchest implements CommandExecutor, TabCompleter {
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, String[] args) {
 
         if (!(sender instanceof Player)) {
             sender.sendMessage(MegaEssentials.Prefix + "§4Dieser Befehl ist nur für Spieler!");
@@ -37,10 +38,14 @@ public class enderchest implements CommandExecutor, TabCompleter {
         }
 
         if (args.length == 0) {
-            Inventory enderchest = p.getEnderChest();
-            p.openInventory(enderchest);
-        } else if (args.length == 1) {
+            MegaEssentials.getEnderChestUtils().openMenu(p);
+        } else {
             Player target = Bukkit.getPlayer(args[0]);
+
+            if (target == null) {
+                p.sendMessage(MegaEssentials.Prefix + "§4Der §6Spieler " + args[0] + " §4ist nicht online§7.");
+            }
+
             Inventory enderchest = target.getEnderChest();
             p.openInventory(enderchest);
         }

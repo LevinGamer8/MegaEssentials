@@ -3,6 +3,10 @@ package de.megaessentialsrecode.commands;
 import de.megaessentialsrecode.MegaEssentials;
 import de.megaessentialsrecode.utils.TPAHandler;
 import de.megaessentialsrecode.utils.TPAUtils;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -20,7 +24,7 @@ public class tpa implements CommandExecutor, TabCompleter {
 
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, String[] args) {
 
 
         if (!(sender instanceof Player)) {
@@ -37,8 +41,21 @@ public class tpa implements CommandExecutor, TabCompleter {
 
         Player target = Bukkit.getPlayer(args[0]);
 
-        target.sendMessage(MegaEssentials.Prefix + "§a" + p.getName() + " §6möchte sich zu dir §bteleportieren§7.\n§bZum annehmen /tpaccept");
-        p.sendMessage(MegaEssentials.Prefix + "§§6Du hast §b" + target.getName() + " §agefragt ob du dich zu §6ihm §bteleportieren §adarfst§7.");
+        target.sendMessage(MegaEssentials.Prefix + "§a" + p.getName() + " §6möchte sich zu dir §bteleportieren§7.");
+        TextComponent acceptMSG = new TextComponent("§aZum annehmen klicken /tpaccept");
+        acceptMSG.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                new ComponentBuilder("§aKlicke, um die Anfrage §aanzunehmen.").create()));
+        acceptMSG.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpaccept " + p.getName()));
+        target.spigot().sendMessage(acceptMSG);
+
+        TextComponent denyMSG = new TextComponent(MegaEssentials.Prefix + "§cZum ablehnen klicken /tpaccept");
+        denyMSG.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                new ComponentBuilder("§cKlicke, um die Anfrage §cabzulehnen.").create()));
+        denyMSG.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpdeny " + p.getName()));
+        target.spigot().sendMessage(denyMSG);
+
+
+        p.sendMessage(MegaEssentials.Prefix + "§6Du hast §b" + target.getName() + " §agefragt ob du dich zu §6ihm §bteleportieren §adarfst§7.");
 
 
         Location tpaloc = target.getLocation();

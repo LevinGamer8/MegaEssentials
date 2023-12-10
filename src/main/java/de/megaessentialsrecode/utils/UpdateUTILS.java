@@ -99,21 +99,21 @@ public class UpdateUTILS {
         throw new IOException("Fehler beim Abrufen der API-Antwort. Response Code: " + responseCode);
     }
 
-    public void deleteOldVersion(String version, CommandSender sender) {
-        File oldFile = new File(this.plugin.getDataFolder().getParentFile().getPath(), "ViaVersion-" + version + ".jar");
+    public void deleteOldVersion(String plugin,String version, CommandSender sender) {
+        File oldFile = new File(this.plugin.getDataFolder().getParentFile().getPath(), plugin + "-" + version + ".jar");
         if (oldFile.exists()) {
             try {
                 if (oldFile.delete()) {
-                    sender.sendMessage(MegaEssentials.Prefix + "§bAlte Version (v" + version + ") von §aViaVersion erfolgreich §cgelöscht");
+                    sender.sendMessage(MegaEssentials.Prefix + "§bAlte Version (v" + version + ") von §a" + plugin + "erfolgreich §cgelöscht");
                 } else {
-                    sender.sendMessage(MegaEssentials.Prefix + "§4Fehler beim Löschen alten Version (v" + version + ") von ViaVersion: Delete-Fehler");
+                    sender.sendMessage(MegaEssentials.Prefix + "§4Fehler beim Löschen alten Version (v" + version + ") von §a" + plugin + ": Delete-Fehler");
                 }
             } catch (SecurityException e) {
-                sender.sendMessage(MegaEssentials.Prefix + "§4Fehler beim Lder alten Version (v" + version + ") von ViaVersion: Zugriffsfehler");
+                sender.sendMessage(MegaEssentials.Prefix + "§4Fehler beim Lder alten Version (v" + version + ") von §a" + plugin + ": Zugriffsfehler");
                 e.printStackTrace();
             }
         } else {
-            sender.sendMessage(MegaEssentials.Prefix + "§4Fehler beim Lder alten Version (v" + version + ") von ViaVersion: Datei nicht gefunden");
+            sender.sendMessage(MegaEssentials.Prefix + "§4Fehler beim Lder alten Version (v" + version + ") von §a" + plugin + ": Datei nicht gefunden");
         }
     }
 

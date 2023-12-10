@@ -12,7 +12,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
-import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.event.server.TabCompleteEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -35,6 +34,9 @@ public class EssentialListener implements org.bukkit.event.Listener {
         Player p = e.getPlayer();
         PlayerData pd = new PlayerData(p.getName());
         pd.createPlayer(p.getName());
+        if (!(pd.hasEnderchest())) {
+            pd.createEnderchest();
+        }
         e.setJoinMessage("");
         if (pd.isVanished()) {
             for (Player oplayer : Bukkit.getOnlinePlayers()) {
@@ -47,17 +49,21 @@ public class EssentialListener implements org.bukkit.event.Listener {
             Locations.teleportToSpawn(p);
         }
 
+
+
         for (Player vanishedplayer : Bukkit.getOnlinePlayers()) {
             PlayerData vanishedPD = new PlayerData(vanishedplayer.getName());
             if (vanishedPD.isVanished()) {
                 p.hidePlayer(plugin, vanishedplayer);
             }
-
         }
     }
 
     @EventHandler
     public void onLeave(PlayerQuitEvent e) {
+        Player p = e.getPlayer();
+        PlayerData pd = new PlayerData(p.getName());
+        pd.saveEnderchest(p.getEnderChest());
         e.setQuitMessage("");
     }
 
@@ -83,10 +89,6 @@ public class EssentialListener implements org.bukkit.event.Listener {
             Inventory tradingInv = Bukkit.createInventory(null, 4*9, "§aTauschen");
 
             ItemStack glass_pane = new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).setDisplayName("§b").build();
-
-            for (int i = 0; i < 36;) {
-                tradingInv.setItem(i, glass_pane);
-            }
 
 
 

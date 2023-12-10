@@ -21,14 +21,11 @@ public class AdminListener implements Listener {
     public void onInteract(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
 
-        if (e.getView().getTitle() == null) {
-            return;
-        }
 
         if (e.getView().getTitle().equals("§4ADMIN")) {
             e.setCancelled(true);
             if (e.getCurrentItem().getType() == Material.GOLD_INGOT) {
-                if (e.getCurrentItem().getItemMeta().getDisplayName() == "§6GELD") {
+                if (e.getCurrentItem().getItemMeta().getDisplayName().equals("§6GELD")) {
                     Inventory inv = Bukkit.createInventory(null, 9 * 1, "§4ADMIN§7-§6GELD");
                     ItemStack glass_pane = new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE).setDisplayName("§b").build();
                     for(int i = 0; i < 27; i++) {
@@ -45,7 +42,7 @@ public class AdminListener implements Listener {
                 if (e.getCurrentItem().getItemMeta().getDisplayName() == "§6Pay * 10.000")
                     p.getWorld().playEffect(p.getLocation().add(0.0D, 0.0D, 0.0D), Effect.BLAZE_SHOOT, 1);
                 p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
-                Double amount = Double.parseDouble("10000");
+                double amount = Double.parseDouble("10000");
                 PlayerData pd1 = new PlayerData("");
                 List<String> registeredPlayers = pd1.getAllRegisteredPlayers();
                 for (String playerUUID : registeredPlayers) {

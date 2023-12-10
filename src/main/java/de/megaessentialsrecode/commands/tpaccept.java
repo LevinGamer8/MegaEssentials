@@ -4,16 +4,15 @@ package de.megaessentialsrecode.commands;
 import de.megaessentialsrecode.MegaEssentials;
 import de.megaessentialsrecode.utils.TPAHandler;
 import de.megaessentialsrecode.utils.TPAUtils;
-import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public class tpaccept implements CommandExecutor {
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, String[] args) {
 
 
         if (!(sender instanceof Player)) {
@@ -21,25 +20,33 @@ public class tpaccept implements CommandExecutor {
             return true;
         }
 
-        Player p = (Player) sender;
+        Player player = (Player) sender;
 
-        if (!(args.length == 0)) {
-            p.sendMessage(MegaEssentials.Prefix + "§4Nutzung§7: §6/tpaccept");
+        if (!(args.length == 1)) {
+            player.sendMessage(MegaEssentials.Prefix + "§4Nutzung§7: §6/tpaccept §7[§aSpieler§7]");
             return true;
         }
 
-        TPAUtils latestRequest = TPAHandler.getLatestRequest(p);
-        if (latestRequest == null) {
-            return true;
+        String requesterName = args[0];
+        TPAUtils tpaRequest = TPAHandler.getLatestRequest(player);
+
+        if (tpaRequest != null && tpaRequest.getSender().getName().equalsIgnoreCase(requesterName)) {
+            Player requester = tpaRequest.getSender();
+
+            if (requester != null && requester.isOnline()) {
+                if (tpaRequest.isTpHere()) {
+                    player.teleport(requester);
+                } else {
+                    requester.teleport(player);
+                }
+                TPAHandler.cancelRequest(tpaRequest);
+            } else {
+                player.sendMessage(MegaEssentials.Prefix + "§cDer Spieler §e" + requesterName + " §cist nicht mehr online§7.");
+            }
+        } else {
+            player.sendMessage(MegaEssentials.Prefix + "§cKeine ausstehende TPA-Anfrage von " + requesterName + "§7.");
         }
-        if (!latestRequest.isTpHere())
-            latestRequest.setLocation(p.getLocation());
-        latestRequest.getSender().teleport(latestRequest.getLocation());
-        TPAHandler.cancelRequest(latestRequest);
-        p.playSound(p, Sound.BLOCK_BELL_USE, 1.0F, 1.0F);
-        latestRequest.getSender().playSound(latestRequest.getSender(), Sound.ENTITY_SHULKER_TELEPORT, 1.0F, 2.0F);
 
-
-        return false;
+        return true;
     }
 }

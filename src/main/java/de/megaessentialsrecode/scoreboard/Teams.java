@@ -16,8 +16,8 @@ public class Teams {
         registerTeam(scoreboard, "0001Owner", "§f" + Ranks.Ownerprefix, ChatColor.GREEN);
         registerTeam(scoreboard, "0002Admin", "§f" + Ranks.Adminprefix, ChatColor.GREEN);
         registerTeam(scoreboard, "0003Moderator", "§f" + Ranks.Moderatorprefix, ChatColor.GREEN);
-        registerTeam(scoreboard, "0004Builder", "§f" + Ranks.Builderprefix, ChatColor.GRAY);
-        registerTeam(scoreboard, "0005Supporter", "§f" + Ranks.Supporterprefix, ChatColor.GRAY);
+        registerTeam(scoreboard, "0004Builder", "§f" + Ranks.Builderprefix, ChatColor.GREEN);
+        registerTeam(scoreboard, "0005Supporter", "§f" + Ranks.Supporterprefix, ChatColor.GREEN);
         registerTeam(scoreboard, "0006Partner", "§f" + Ranks.Partnerprefix, ChatColor.GRAY);
         registerTeam(scoreboard, "0007T-Team", "§f" + Ranks.Tteamprefix, ChatColor.GRAY);
         registerTeam(scoreboard, "0008MEGA", "§f" + Ranks.Megaprefix, ChatColor.GRAY);

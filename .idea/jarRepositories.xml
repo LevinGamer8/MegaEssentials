@@ -2,14 +2,14 @@
 <project version="4">
   <component name="RemoteRepositoriesConfiguration">
     <remote-repository>
-      <option name="id" value="lenni0451-maven-releases" />
-      <option name="name" value="Lenni0451 Maven Repository" />
-      <option name="url" value="https://maven.lenni0451.net/releases" />
-    </remote-repository>
-    <remote-repository>
       <option name="id" value="central" />
       <option name="name" value="Central Repository" />
       <option name="url" value="https://repo.maven.apache.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="lenni0451-maven-releases" />
+      <option name="name" value="Lenni0451 Maven Repository" />
+      <option name="url" value="https://maven.lenni0451.net/releases" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="jitpack.io" />
@@ -30,6 +30,11 @@
       <option name="id" value="spigotmc-repo" />
       <option name="name" value="spigotmc-repo" />
       <option name="url" value="https://hub.spigotmc.org/nexus/content/repositories/snapshots/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="dmulloy2-repo" />
+      <option name="name" value="dmulloy2-repo" />
+      <option name="url" value="https://repo.dmulloy2.net/repository/public/" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="papermc-repo" />

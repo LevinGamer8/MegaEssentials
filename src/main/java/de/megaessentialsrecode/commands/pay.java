@@ -43,23 +43,23 @@ public class pay implements CommandExecutor, TabCompleter {
             List<String> registeredPlayers = pd.getAllRegisteredPlayers();
             for (String playerUUID : registeredPlayers) {
                 OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(playerUUID));
-                    if (!offlinePlayer.getUniqueId().equals(p.getUniqueId())) {
-                        if (!(isNumeric(args[1]))) {
-                            sender.sendMessage(MegaEssentials.Prefix + "§4Bitte gebe eine gültige Zahl ein.");
-                            return true;
-                        }
-                        if (!economyProvider.has(p, amount * numPlayers)) {
-                            p.sendMessage(MegaEssentials.Prefix + "§6Du §bhast §cnicht genug §aGeld.");
-                            p.sendTitle("§cDir fehlen §e" + this.economyProvider.format(amount * numPlayers - economy) + " §b" + economyProvider.currencyNameSingular(), "");
-                            return true;
-                        }
-                        pd.addEconomy(amount);
-                        if (offlinePlayer.isOnline()) {
-                            Player target = Bukkit.getPlayer(offlinePlayer.getName());
-                            target.sendTitle("§6" + p.getName(), " §bhat dir §6" + this.economyProvider.format(amount) + " §b" + this.economyProvider.currencyNameSingular() + " §agegeben.");
-                        }
-                        numPlayers++;
+                if (!offlinePlayer.getUniqueId().equals(p.getUniqueId())) {
+                    if (!(isNumeric(args[1]))) {
+                        sender.sendMessage(MegaEssentials.Prefix + "§4Bitte gebe eine gültige Zahl ein.");
+                        return true;
                     }
+                    if (!economyProvider.has(p, amount * numPlayers)) {
+                        p.sendMessage(MegaEssentials.Prefix + "§6Du §bhast §cnicht genug §aGeld.");
+                        p.sendTitle("§cDir fehlen §e" + this.economyProvider.format(amount * numPlayers - economy) + " §b" + economyProvider.currencyNameSingular(), "");
+                        return true;
+                    }
+                    pd.addEconomy(amount);
+                    if (offlinePlayer.isOnline()) {
+                        Player target = Bukkit.getPlayer(offlinePlayer.getName());
+                        target.sendTitle("§6" + p.getName(), " §bhat dir §6" + this.economyProvider.format(amount) + " §b" + this.economyProvider.currencyNameSingular() + " §agegeben.");
+                    }
+                    numPlayers++;
+                }
             }
             totalAmount = amount * numPlayers;
 

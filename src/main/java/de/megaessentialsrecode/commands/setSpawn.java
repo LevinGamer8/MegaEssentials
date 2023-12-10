@@ -9,7 +9,7 @@ import org.bukkit.plugin.Plugin;
 
 public class setSpawn implements CommandExecutor {
 
-    private Plugin plugin;
+    private final Plugin plugin;
     public setSpawn(Plugin plugin) {
         this.plugin = plugin;
     }
@@ -24,15 +24,12 @@ public class setSpawn implements CommandExecutor {
 
         Player p = (Player) sender;
         if (p.hasPermission("megacraft.command.setspawn")) {
-            if (plugin.getConfig().get("spawn.x") == "1" && plugin.getConfig().get("spawn.y") == "1" && plugin.getConfig().get("spawn.z") == "1") {
-                plugin.getConfig().set("spawn.x", p.getLocation().getBlockX());
-                plugin.getConfig().set("spawn.y", p.getLocation().getBlockY());
-                plugin.getConfig().set("spawn.z", p.getLocation().getBlockZ());
+                plugin.getConfig().set("spawn.x", p.getLocation().getX());
+                plugin.getConfig().set("spawn.y", p.getLocation().getY());
+                plugin.getConfig().set("spawn.z", p.getLocation().getZ());
                 plugin.getConfig().set("spawn.world", p.getWorld().getName());
+                plugin.saveConfig();
                 p.sendMessage(MegaEssentials.Prefix + "§bDer Spawn wurde gesetzt!");
-            } else {
-                p.sendMessage(MegaEssentials.Prefix + "§bDer Spawn wurde bereits gesetzt, um ihn erneut zu ändern, tue dies in der Config");
-            }
         }
         return false;
     }

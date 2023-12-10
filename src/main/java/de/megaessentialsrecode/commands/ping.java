@@ -39,7 +39,7 @@ public class ping implements CommandExecutor {
             if (p.hasPermission("megacraft.command.ping.others")) {
                 Player target = Bukkit.getPlayer(args[0]);
                 if (target == null) {
-                    p.sendMessage(MegaEssentials.Prefix + "§4Der Spieler §6" + target.getName() + " §4existiert nicht!");
+                    p.sendMessage(MegaEssentials.Prefix + "§4Der Spieler §6" + args[0] + " §4ist nicht online!");
                 }
                 int ping = target.getPing();
                 p.sendTitle("§bPing", "§6" + target.getName() + "§7's §bPing §7ist §b" + ping + "§7ms");

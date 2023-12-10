@@ -5,7 +5,6 @@ import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.OfflinePlayer;
 
-import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
 

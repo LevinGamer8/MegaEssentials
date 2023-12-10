@@ -19,8 +19,7 @@ import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,9 +35,10 @@ public final class MegaEssentials extends JavaPlugin implements PluginMessageLis
     public static String name;
     public static String Prefix;
     public final static String noPerms = "§4Dazu hast du keine Rechte!";
-    public static String booster;
-    public ExecutorService EXECUTOR_SERVICE = Executors.newSingleThreadExecutor();
-    private UpdateUTILS updateUTILS = new UpdateUTILS(this);
+    private final UpdateUTILS updateUTILS = new UpdateUTILS(this);
+    private static ModdedSeralizer ms;
+    private static EnderChestUtils enderchestUtils;
+    private static DataHandler dH;
 
     @Override
     public void onEnable() {
@@ -46,11 +46,10 @@ public final class MegaEssentials extends JavaPlugin implements PluginMessageLis
         loadConfig();
         name = this.getConfig().getString("plugin.name");
         if (Prefix != null) {
-            Prefix = this.getConfig().getString("plugin.prefix").replace("&", "§");
+            Prefix = Objects.requireNonNull(this.getConfig().getString("plugin.prefix")).replace("&", "§");
         } else {
             Prefix = "§3MegaCraft§7: §r";
         }
-
         ConnectionPoolFactory connectionPool = new ConnectionPoolFactory(this.getConfig());
         try {
             dataSource = connectionPool.getPluginDataSource(this);
@@ -66,6 +65,10 @@ public final class MegaEssentials extends JavaPlugin implements PluginMessageLis
         registerCommands();
         registerListeners();
         initMySQL();
+
+        enderchestUtils = new EnderChestUtils(this);
+        ms = new ModdedSeralizer();
+        dH = new DataHandler(this);
     }
 
 
@@ -89,26 +92,17 @@ public final class MegaEssentials extends JavaPlugin implements PluginMessageLis
     }
 
 
-
-    private void checkPlayerOnlineTime() {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            long onlineDuration = System.currentTimeMillis() - player.getFirstPlayed();
-            long requiredDuration = 10 * 60 * 1000;
-
-            if (onlineDuration >= requiredDuration) {
-                int delay = 20 * 60 * 10;
-                int period = 20 * 60 * 10;
-                new MoneyGiveTask().runTaskTimer(this, delay, period);
-            }
-        }
-    }
-
     public void initMySQL() {
         try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement("CREATE TABLE IF NOT EXISTS playerdata (Name VARCHAR(64) NOT NULL, money DOUBLE, vanish BOOLEAN)")
+             PreparedStatement ps = conn.prepareStatement("CREATE TABLE IF NOT EXISTS playerdata (Name VARCHAR(64) NOT NULL, money DOUBLE, vanish BOOLEAN)");
+             PreparedStatement ps1 = conn.prepareStatement("CREATE TABLE IF NOT EXISTS warps (Name VARCHAR(24) PRIMARY KEY, world VARCHAR(50), x DOUBLE DEFAULT 0.0, y DOUBLE DEFAULT 0.0, z DOUBLE DEFAULT 0.0, yaw FLOAT DEFAULT 0.0, pitch FLOAT DEFAULT 0.0, active BOOLEAN DEFAULT FALSE);\n");
+             PreparedStatement ps2 = conn.prepareStatement("CREATE TABLE IF NOT EXISTS homes (id INT AUTO_INCREMENT, Name VARCHAR(64) NOT NULL, home_name VARCHAR(64), world VARCHAR(64), X DOUBLE, Y DOUBLE, Z DOUBLE, yaw FLOAT, pitch FLOAT, primary key(id))");
+             PreparedStatement ps3 = conn.prepareStatement("CREATE TABLE IF NOT EXISTS enderchests (Name VARCHAR(24) NOT NULL, enderchest_data LONGTEXT NOT NULL, size int(3) NOT NULL, PRIMARY KEY (Name))");
         ) {
             ps.executeUpdate();
-
+            ps1.executeUpdate();
+            ps2.executeUpdate();
+            ps3.executeUpdate();
         } catch (SQLException e) {
             logger().log(Level.SEVERE, "Keine Verbindung zur Datenbank!", e);
         }
@@ -117,47 +111,53 @@ public final class MegaEssentials extends JavaPlugin implements PluginMessageLis
 
 
     public void registerCommands() {
-        getCommand("admin").setExecutor(new admin());
-        getCommand("fly").setExecutor(new fly());
-        getCommand("heal").setExecutor(new heal());
-        getCommand("feed").setExecutor(new feed());
-        getCommand("navi").setExecutor(new navigator());
+        Objects.requireNonNull(getCommand("admin")).setExecutor(new admin());
+        Objects.requireNonNull(getCommand("fly")).setExecutor(new fly());
+        Objects.requireNonNull(getCommand("heal")).setExecutor(new heal());
+        Objects.requireNonNull(getCommand("feed")).setExecutor(new feed());
+        Objects.requireNonNull(getCommand("navi")).setExecutor(new navigator());
         if (this.getConfig().getBoolean("economy.enabled")) {
-            getCommand("balance").setExecutor(new balance());
-            getCommand("balancetop").setExecutor(new balancetop());
-            getCommand("money").setExecutor(new balance());
-            getCommand("pay").setExecutor(new pay());
-            getCommand("eco").setExecutor(new eco());
+            Objects.requireNonNull(getCommand("balance")).setExecutor(new balance());
+            Objects.requireNonNull(getCommand("balancetop")).setExecutor(new balancetop());
+            Objects.requireNonNull(getCommand("money")).setExecutor(new balance());
+            Objects.requireNonNull(getCommand("pay")).setExecutor(new pay());
+            Objects.requireNonNull(getCommand("eco")).setExecutor(new eco());
         }
-        getCommand("invsee").setExecutor(new invsee());
-        getCommand("tpa").setExecutor(new tpa());
-        getCommand("tpahere").setExecutor(new tpahere());
-        getCommand("tpaccept").setExecutor(new tpaccept());
-        getCommand("enchant").setExecutor(new enchant());
-        getCommand("enderchest").setExecutor(new enderchest());
-        getCommand("ec").setExecutor(new enderchest());
-        getCommand("gamemode").setExecutor(new gamemode());
-        getCommand("gm").setExecutor(new gamemode());
-        getCommand("day").setExecutor(new day());
-        getCommand("night").setExecutor(new night());
-        getCommand("sun").setExecutor(new sun());
-        getCommand("rain").setExecutor(new rain());
-        getCommand("tp").setExecutor(new tp());
-        getCommand("tphere").setExecutor(new tphere());
-        getCommand("repair").setExecutor(new repair());
-        getCommand("ping").setExecutor(new ping());
-        getCommand("chatclear").setExecutor(new cc());
-        getCommand("vanish").setExecutor(new vanish(this));
-        getCommand("update").setExecutor(new update(this, updateUTILS));
+        Objects.requireNonNull(getCommand("invsee")).setExecutor(new invsee());
+        Objects.requireNonNull(getCommand("enchant")).setExecutor(new enchant());
+        Objects.requireNonNull(getCommand("enderchest")).setExecutor(new enderchest());
+        Objects.requireNonNull(getCommand("ec")).setExecutor(new enderchest());
+        Objects.requireNonNull(getCommand("gamemode")).setExecutor(new gamemode());
+        Objects.requireNonNull(getCommand("gm")).setExecutor(new gamemode());
+        Objects.requireNonNull(getCommand("day")).setExecutor(new day());
+        Objects.requireNonNull(getCommand("night")).setExecutor(new night());
+        Objects.requireNonNull(getCommand("sun")).setExecutor(new sun());
+        Objects.requireNonNull(getCommand("rain")).setExecutor(new rain());
+        Objects.requireNonNull(getCommand("tp")).setExecutor(new tp());
+        Objects.requireNonNull(getCommand("tphere")).setExecutor(new tphere());
+        Objects.requireNonNull(getCommand("tpa")).setExecutor(new tpa());
+        Objects.requireNonNull(getCommand("tpahere")).setExecutor(new tpahere());
+        Objects.requireNonNull(getCommand("tpaccept")).setExecutor(new tpaccept());
+        Objects.requireNonNull(getCommand("tpdeny")).setExecutor(new tpdeny());
+        Objects.requireNonNull(getCommand("home")).setExecutor(new home());
+        Objects.requireNonNull(getCommand("repair")).setExecutor(new repair());
+        Objects.requireNonNull(getCommand("ping")).setExecutor(new ping());
+        Objects.requireNonNull(getCommand("chatclear")).setExecutor(new cc());
+        Objects.requireNonNull(getCommand("vanish")).setExecutor(new vanish(this));
+        Objects.requireNonNull(getCommand("update")).setExecutor(new update(this, updateUTILS));
+        Objects.requireNonNull(getCommand("workbench")).setExecutor(new workbench());
+        Objects.requireNonNull(getCommand("warp")).setExecutor(new warp());
+        Objects.requireNonNull(getCommand("setwarp")).setExecutor(new setWarp());
+        Objects.requireNonNull(getCommand("deletewarp")).setExecutor(new deleteWarp());
         if (this.getConfig().getBoolean("battlepass.enabled")) {
-            getCommand("battlepass").setExecutor(new battlepass());
+            Objects.requireNonNull(getCommand("battlepass")).setExecutor(new battlepass());
         }
-        getCommand("player").setExecutor(new info());
-        getCommand("chatclear").setExecutor(new cc());
-        getCommand("gift").setExecutor(new gift());
+        Objects.requireNonNull(getCommand("player")).setExecutor(new info());
+        Objects.requireNonNull(getCommand("chatclear")).setExecutor(new cc());
+        Objects.requireNonNull(getCommand("gift")).setExecutor(new gift());
         if (this.getConfig().getBoolean("spawn.enabled")) {
-            getCommand("spawn").setExecutor(new spawn());
-            getCommand("setspawn").setExecutor(new setSpawn(this));
+            Objects.requireNonNull(getCommand("spawn")).setExecutor(new spawn());
+            Objects.requireNonNull(getCommand("setspawn")).setExecutor(new setSpawn(this));
         }
     }
 
@@ -173,7 +173,7 @@ public final class MegaEssentials extends JavaPlugin implements PluginMessageLis
             Bukkit.getPluginManager().registerEvents(new RankListener(), this);
         }
         Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-        Bukkit.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this::onPluginMessageReceived);
+        Bukkit.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this);
         getServer().getMessenger().registerIncomingPluginChannel( this, "megacord:inv", this );
     }
 
@@ -204,7 +204,7 @@ public final class MegaEssentials extends JavaPlugin implements PluginMessageLis
             saveResource("config.yml", true);
         }
         this.saveDefaultConfig();
-        if (!this.getConfig().contains("mysql.host") && this.getConfig().contains("rankprefix.enabled")) {
+        if (!(this.getConfig().contains("mysql.host") && this.getConfig().contains("rankprefix.enabled"))) {
             this.getConfig().set("plugin.name", "megaessentials");
             this.getConfig().set("plugin.prefix", "&3MegaCraft&7: &r");
             this.getConfig().set("mysql.host", "localhost");
@@ -221,6 +221,13 @@ public final class MegaEssentials extends JavaPlugin implements PluginMessageLis
             this.getConfig().set("battlepass.enabled", "true");
             this.getConfig().set("rankprefix.enabled", "true");
             this.getConfig().set("deviceinfo.enabled", "true");
+            this.getConfig().set("enderChestTitle.enderChestName", "§bEnderChest §7| ");
+            this.getConfig().set("enderChestTitle.level5", "§5Level 5");
+            this.getConfig().set("enderChestTitle.level4", "§5Level 4");
+            this.getConfig().set("enderChestTitle.level3", "§5Level 3");
+            this.getConfig().set("enderChestTitle.level2", "§5Level 2");
+            this.getConfig().set("enderChestTitle.level1", "§5Level 1");
+            this.getConfig().set("enderChestTitle.level0", "§5Level 0");
             this.saveConfig();
         }
     }
@@ -247,6 +254,15 @@ public final class MegaEssentials extends JavaPlugin implements PluginMessageLis
 
     public static EconomyProvider getEconomyProvider() {
         return economyProvider;
+    }
+    public static ModdedSeralizer getModdedSerializer() {
+        return ms;
+    }
+    public DataHandler getDataHandler() {
+        return dH;
+    }
+    public static EnderChestUtils getEnderChestUtils() {
+        return enderchestUtils;
     }
 
     @Override

@@ -30,7 +30,7 @@ public class repair implements CommandExecutor {
         }
 
         if (player.getItemInHand().getType().isAir()) {
-            player.sendMessage(MegaEssentials.Prefix + "§4Du musst ein Item ind er hand halten!");
+            player.sendMessage(MegaEssentials.Prefix + "§4Du musst ein Item in der hand halten!");
             return true;
         }
 

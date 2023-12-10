@@ -8,12 +8,7 @@ import org.bukkit.plugin.PluginManager;
 
 public class PluginUtils {
 
-    private final Plugin plugin;
 
-
-    public PluginUtils(Plugin plugin) {
-        this.plugin = plugin;
-    }
 
 
     public void unload(Plugin plugin, CommandSender sender) {

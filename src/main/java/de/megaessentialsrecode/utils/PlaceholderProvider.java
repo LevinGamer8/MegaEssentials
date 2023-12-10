@@ -5,9 +5,6 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class PlaceholderProvider extends PlaceholderExpansion {
 
     private final EconomyProvider economyProvider = MegaEssentials.getEconomyProvider();

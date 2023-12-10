@@ -73,11 +73,10 @@
             <id>opencollab-snapshot</id>
             <url>https://repo.opencollab.dev/main/</url>
         </repository>
-        <repository>
-            <id>lenni0451-maven-releases</id>
-            <name>Lenni0451 Maven Repository</name>
-            <url>https://maven.lenni0451.net/releases</url>
-        </repository>
+            <repository>
+                <id>dmulloy2-repo</id>
+                <url>https://repo.dmulloy2.net/repository/public/</url>
+            </repository>
     </repositories>
 
     <dependencies>
@@ -90,7 +89,7 @@
         <dependency>
             <groupId>com.github.MilkBowl</groupId>
             <artifactId>VaultAPI</artifactId>
-            <version>1.7</version>
+            <version>1.7.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -120,7 +119,7 @@
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>20210307</version> <!-- Ersetzen Sie dies durch die gewünschte Version -->
+            <version>20230227</version>
         </dependency>
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
@@ -128,9 +127,26 @@
             <version>2.7.2</version>
         </dependency>
         <dependency>
-            <groupId>net.lenni0451</groupId>
-            <artifactId>SpigotPluginManager</artifactId>
-            <version>2.7.2</version>
+            <groupId>org.geysermc.floodgate</groupId>
+            <artifactId>api</artifactId>
+            <version>2.2.2-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+            <dependency>
+                <groupId>com.comphenix.protocol</groupId>
+                <artifactId>ProtocolLib</artifactId>
+                <version>5.1.0</version>
+                <scope>provided</scope>
+            </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.16.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.16.0</version>
         </dependency>
     </dependencies>
 
